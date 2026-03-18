@@ -111,10 +111,16 @@ title: Home
         </div>
         <div class="timeline-content">
           <h3>{{ job.title }}</h3>
+          {% if job.bullets %}
+          <ul style="padding-left:1.25rem; list-style:disc; margin-bottom:0.75rem;">
+            {% for bullet in job.bullets %}
+            <li style="font-size:0.95rem; color:var(--ink-soft); line-height:1.8; margin-bottom:0.35rem;">{{ bullet }}</li>
+            {% endfor %}
+          </ul>
+          {% elsif job.description %}
           <p>{{ job.description }}</p>
+          {% endif %}
           {% if job.tags %}
-          <div class="timeline-tags">
-            {% for tag in job.tags %}
             <span class="timeline-tag">{{ tag }}</span>
             {% endfor %}
           </div>
