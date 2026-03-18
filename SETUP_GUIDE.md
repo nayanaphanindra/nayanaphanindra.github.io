@@ -61,11 +61,14 @@ You have two options. Option A is easier for beginners.
 
 1. In your repo, click **Settings** (tab at top)
 2. Scroll down to **Pages** in the left sidebar
-3. Under **Source**, select **Deploy from a branch**
-4. Set branch to **main** (or **master**) and folder to **/ (root)**
+3. Under **Source**, select **GitHub Actions** (not "Deploy from a branch")
+4. GitHub will detect the workflow file already in `.github/workflows/deploy.yml`
 5. Click **Save**
 
+The workflow automatically builds and deploys your Jekyll site every time you push changes.
 Your site will be live in 2–5 minutes at `https://YOUR-USERNAME.github.io`
+
+> **Why GitHub Actions?** It's more reliable than the basic branch deploy — it runs a full Jekyll build with all plugins, and shows you exactly what went wrong if something fails.
 
 ---
 

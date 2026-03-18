@@ -2,12 +2,12 @@
 layout: default
 title: Portfolio
 ---
-
 <main class="post-page">
   <div class="container">
     <header class="post-hero fade-in">
       <span class="section-label">Selected Works</span>
       <h1>Portfolio</h1>
+      <p style="font-size:1.05rem; color:var(--ink-soft); margin-top:0.75rem;">A selection of instructional design projects — from e-learning modules to curriculum redesigns.</p>
     </header>
     <div class="portfolio-grid">
       {% assign items = site.portfolio | sort: 'date' | reverse %}
@@ -16,7 +16,10 @@ title: Portfolio
         {% if item.type %}<p class="card-type">{{ item.type }}</p>{% endif %}
         <h3 class="card-title">{{ item.title }}</h3>
         <p class="card-desc">{{ item.excerpt | strip_html | truncate: 140 }}</p>
-        <a href="{{ item.url | relative_url }}" class="card-link">View project →</a>
+        <a href="{{ item.url | relative_url }}" class="card-link">
+          View project
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
       </div>
       {% endfor %}
     </div>
