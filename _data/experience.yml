@@ -1,0 +1,20 @@
+# _data/experience.yml
+# Edit this file to update your experience section
+
+- title: Instructional Designer
+  org: Organisation Name
+  date: "2023 – Present"
+  description: "Describe your role here. What did you design? What impact did it have? Mention the scale — number of learners, global reach, outcomes measured."
+  tags: [ADDIE, Articulate Storyline, LMS, Gamification]
+
+- title: K–12 Educator & Teacher Trainer
+  org: School / NGO Name
+  date: "2021 – 2023"
+  description: "Describe your teaching and training work here. Mention subjects, grade levels, and any curriculum development or state-level training you led."
+  tags: [Curriculum Design, Facilitation, Teacher Training, Bloom's Taxonomy]
+
+- title: Language Coach
+  org: Institute / Freelance
+  date: "2020 – 2021"
+  description: "English and Kannada coaching — LSRW skills, professional communication, and language programmes for corporate or academic contexts."
+  tags: [English LSRW, Kannada, Adult Learning]

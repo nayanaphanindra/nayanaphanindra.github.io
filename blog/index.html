@@ -1,0 +1,32 @@
+---
+layout: default
+title: Blog
+---
+
+<main class="post-page">
+  <div class="container">
+    <header class="post-hero fade-in">
+      <span class="section-label">Writing</span>
+      <h1>Blog</h1>
+      <p style="font-size:1.05rem; color:var(--ink-soft); margin-top:0.75rem;">Thoughts on instructional design, learning strategy, and the craft of behaviour change.</p>
+    </header>
+
+    {% if site.posts.size > 0 %}
+    <div class="blog-grid">
+      {% for post in site.posts %}
+      <article class="blog-card fade-in">
+        <div class="blog-meta">
+          <span class="blog-date">{{ post.date | date: "%b %d, %Y" }}</span>
+          {% if post.category %}<span class="blog-category">{{ post.category }}</span>{% endif %}
+        </div>
+        <h3 class="blog-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p class="blog-excerpt">{{ post.excerpt | strip_html }}</p>
+        <a href="{{ post.url | relative_url }}" class="blog-read-more">Read more →</a>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-posts">No posts yet. Add a file to <code>_posts/</code> to get started.</p>
+    {% endif %}
+  </div>
+</main>

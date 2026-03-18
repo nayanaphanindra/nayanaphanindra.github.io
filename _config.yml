@@ -1,0 +1,34 @@
+# Site settings
+title: Nayana Phanindra
+description: Instructional Designer · Bangalore, India
+author: Nayana Phanindra
+email: your@email.com
+baseurl: ""
+url: "https://yourusername.github.io"
+
+# Tagline shown in hero
+tagline: "From K–12 classrooms to corporate learning — building frameworks that change behaviour, not just awareness."
+
+# Social links (fill these in)
+linkedin_url: "https://linkedin.com/in/yourprofile"
+github_url: ""
+
+# Collections
+collections:
+  portfolio:
+    output: true
+    permalink: /portfolio/:name/
+
+# Build settings
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from build
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock

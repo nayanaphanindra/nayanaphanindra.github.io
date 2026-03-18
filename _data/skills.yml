@@ -1,0 +1,47 @@
+# _data/skills.yml
+
+- category: "Instructional Design & Learning Development"
+  items:
+    - ADDIE
+    - Bloom's Taxonomy
+    - 5E Instructional Model
+    - Adult Learning & Andragogy
+    - Learning Experience Design
+    - Gamification · Octalysis
+    - Curriculum Development
+    - Storyboarding & Scripting
+    - Scaffolded Learning
+    - Assessment Design
+    - Microlearning
+    - Blended Learning
+
+- category: "Tools & Technology"
+  items:
+    - Articulate Storyline 360
+    - Articulate Rise 360
+    - LMS Administration
+    - ChatGPT
+    - Claude
+    - Gemini
+    - Prompt Engineering
+    - Microsoft Office Suite
+    - Google Workspace
+
+- category: "Facilitation & Training"
+  items:
+    - Virtual Facilitation
+    - In-Person Facilitation
+    - Teacher Training
+    - Professional Development
+    - State-Level Educator Training
+    - Language Coaching
+
+- category: "Analytics & Soft Skills"
+  items:
+    - Learning Analytics
+    - Training Effectiveness Evaluation
+    - Stakeholder Communication
+    - Progress Reporting
+    - English · Fluent
+    - Kannada · Fluent
+    - Hindi · Working Proficiency

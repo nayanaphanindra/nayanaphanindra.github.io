@@ -1,0 +1,265 @@
+---
+layout: default
+title: Home
+---
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<section id="home">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-text">
+        <p class="hero-eyebrow">Instructional Designer · Bangalore, India</p>
+        <h1 class="hero-title">Nayana<br><em>Phanindra</em></h1>
+        <p class="hero-tagline">{{ site.tagline }}</p>
+        <a href="#portfolio" class="hero-cta">
+          Explore my portfolio
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <div class="hero-photo-wrap">
+        <div class="hero-photo">
+          <!-- Replace src with your photo: assets/images/nayana.jpg -->
+          <!-- <img src="{{ '/assets/images/nayana.jpg' | relative_url }}" alt="Nayana Phanindra"> -->
+          <div class="hero-photo-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Add your photo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     ABOUT
+══════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+    <div class="about-inner">
+
+      <div class="about-text fade-in">
+        <span class="section-label">About</span>
+        <h2>I design learning that transfers — not learning that ticks a box.</h2>
+        <p>Leveraging a background in K–12 education and teacher training, I create adaptive learning strategies and gamified digital content.</p>
+        <p>From storyboarding to LMS administration, I focus on delivering coherent, scaffolded instruction that drives measurable results for global organisations.</p>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">ID Frameworks</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Languages</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="skills-column fade-in">
+        {% for group in site.data.skills %}
+        <h3>{{ group.category }}</h3>
+        <div class="skill-tags">
+          {% for skill in group.items %}
+          <span class="skill-tag">{{ skill }}</span>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     EXPERIENCE
+══════════════════════════════════════ -->
+<section id="experience">
+  <div class="container">
+    <div class="experience-header fade-in">
+      <div>
+        <span class="section-label">Experience</span>
+        <h2>Where I've worked</h2>
+      </div>
+    </div>
+
+    <div class="timeline">
+      {% for job in site.data.experience %}
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="timeline-date">{{ job.date }}</div>
+          <div class="timeline-org">{{ job.org }}</div>
+        </div>
+        <div class="timeline-content">
+          <h3>{{ job.title }}</h3>
+          <p>{{ job.description }}</p>
+          {% if job.tags %}
+          <div class="timeline-tags">
+            {% for tag in job.tags %}
+            <span class="timeline-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     PORTFOLIO
+══════════════════════════════════════ -->
+<section id="portfolio">
+  <div class="container">
+    <div class="portfolio-header fade-in">
+      <span class="section-label">Selected Works</span>
+      <h2>Projects I'm proud of</h2>
+    </div>
+
+    <div class="portfolio-grid">
+      {% assign portfolio_items = site.portfolio | sort: 'date' | reverse %}
+      {% if portfolio_items.size > 0 %}
+        {% for item in portfolio_items %}
+        <div class="portfolio-card">
+          {% if item.type %}<p class="card-type">{{ item.type }}</p>{% endif %}
+          <h3 class="card-title">{{ item.title }}</h3>
+          <p class="card-desc">{{ item.excerpt | strip_html | truncate: 140 }}</p>
+          <a href="{{ item.url | relative_url }}" class="card-link">
+            View project
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+        {% endfor %}
+      {% else %}
+        <!-- Placeholder cards shown until real portfolio items are added -->
+        <div class="portfolio-card">
+          <p class="card-type">E-Learning Module</p>
+          <h3 class="card-title">Your First Project Title</h3>
+          <p class="card-desc">Add your portfolio items by creating files in the _portfolio folder. Each file becomes a card here automatically.</p>
+          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
+        </div>
+        <div class="portfolio-card">
+          <p class="card-type">Curriculum Design</p>
+          <h3 class="card-title">Your Second Project</h3>
+          <p class="card-desc">Describe what you built, the tools you used (Articulate, Rise, etc.), and the learning outcome it achieved.</p>
+          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
+        </div>
+        <div class="portfolio-card">
+          <p class="card-type">Facilitation Design</p>
+          <h3 class="card-title">Your Third Project</h3>
+          <p class="card-desc">Even a quick summary with context, challenge, and solution is enough to make a strong impression.</p>
+          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     BLOG
+══════════════════════════════════════ -->
+<section id="blog">
+  <div class="container">
+    <div class="blog-header fade-in">
+      <span class="section-label">Blog</span>
+      <h2>Thoughts on learning design</h2>
+    </div>
+
+    {% assign recent_posts = site.posts | limit: 6 %}
+    {% if recent_posts.size > 0 %}
+    <div class="blog-grid">
+      {% for post in recent_posts %}
+      <article class="blog-card fade-in">
+        <div class="blog-meta">
+          <span class="blog-date">{{ post.date | date: "%b %d, %Y" }}</span>
+          {% if post.category %}<span class="blog-category">{{ post.category }}</span>{% endif %}
+        </div>
+        <h3 class="blog-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p class="blog-excerpt">{{ post.excerpt | strip_html }}</p>
+        <a href="{{ post.url | relative_url }}" class="blog-read-more">
+          Read more →
+        </a>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-posts">Posts will appear here once you start writing. Add your first post to the <code>_posts</code> folder to get started.</p>
+    {% endif %}
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════
+     CONTACT
+══════════════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+
+      <div class="contact-left fade-in">
+        <span class="section-label">Get in Touch</span>
+        <h2>Let's work together</h2>
+        <p>Open to freelance projects, full-time roles, and consulting conversations. If you're building learning experiences that matter, I'd love to connect.</p>
+        <div class="contact-links">
+          <a href="mailto:{{ site.email }}" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            {{ site.email }}
+          </a>
+          {% if site.linkedin_url %}
+          <a href="{{ site.linkedin_url }}" class="contact-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            LinkedIn Profile
+          </a>
+          {% endif %}
+          <a href="{{ '/assets/Nayana_Phanindra_Resume.pdf' | relative_url }}" class="contact-link" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Download Resume
+          </a>
+        </div>
+      </div>
+
+      <div class="fade-in">
+        <!-- Formspree contact form — free, no server needed -->
+        <!-- Replace YOUR_FORM_ID with your Formspree form ID from formspree.io -->
+        <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
+          </div>
+          <p class="form-note">I typically respond within 2–3 business days.</p>
+          <button type="submit" class="form-submit">Send message →</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
