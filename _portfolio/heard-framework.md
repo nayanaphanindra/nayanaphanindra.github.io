@@ -285,7 +285,6 @@ excerpt: "A microlearning module for academic coordinators at an edtech provider
     </div>
   </div>
 </div>
-
 <div class="port-section">
   <span class="port-section-label">A Snapshot of the Course</span>
   <p style="margin-bottom:1rem;">Click on the course screenshot to view a snapshot.</p>
@@ -294,15 +293,15 @@ excerpt: "A microlearning module for academic coordinators at an edtech provider
       <span>≡ &nbsp; microlearning · articulate rise 360</span>
       <span>8 min · HEARD framework</span>
     </div>
-    <a href="https://nayanapsychologist-spec.github.io/storyline-simulation/story.html" target="_blank" rel="noopener" class="snapshot-img-wrap">
-        <img src="/assets/images/heard-storyline.png" />
-        <div class="snapshot-overlay">
-          <span class="snapshot-overlay-btn">Launch course →</span>
-        </div>
-      </a>
-      <div class="snapshot-caption">
-        <span>Click the image to experience the course</span>
-        <a href="https://nayanapsychologist-spec.github.io/heard-training/" target="_blank" rel="noopener">Launch course →</a>
+    <a href="https://nayanapsychologist-spec.github.io/heard-rise/" target="_blank" rel="noopener" class="snapshot-img-wrap">
+      <img src="/assets/images/heard-rise.png" alt="HEARD Framework — Rise 360 course preview" />
+      <div class="snapshot-overlay">
+        <span class="snapshot-overlay-btn">Launch course →</span>
+      </div>
+    </a>
+    <div class="snapshot-caption">
+      <span>Click the image to experience the course</span>
+      <a href="https://nayanapsychologist-spec.github.io/heard-training/" target="_blank" rel="noopener">Launch course →</a>
     </div>
   </div>
 </div>
