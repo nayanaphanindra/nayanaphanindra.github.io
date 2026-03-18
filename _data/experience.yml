@@ -1,23 +1,36 @@
 - title: K-12 Educator & In-Service Teacher Trainer
   org: i2Global Schools, Bengaluru
   date: "July 2025 – Present"
-  description: "Design and deliver learner-centric lessons and training sessions using ADDIE, Bloom's Taxonomy, and the 5E model. Develop curriculum, assessments, and scaffolded experiences for English, Social Studies, and Life Skills (Grades 6–9). Facilitate workshops incorporating adult learning principles and gamification strategies. Conduct end-to-end needs analysis and competency mapping to design and deliver technology-integration training for teachers — from identifying learning gaps through to delivery and evaluation."
+  bullets:
+    - "Design and deliver learner-centric lessons using ADDIE, Bloom's Taxonomy, and the 5E model"
+    - "Develop curriculum, assessments, and scaffolded experiences for English, Social Studies, and Life Skills (Grades 6–9)"
+    - "Facilitate workshops on adult learning principles, gamification, and varied classroom models"
+    - "Conduct end-to-end competency mapping to design and deliver technology-integration training for teachers — from needs analysis through to evaluation"
   tags: [ADDIE, Bloom's Taxonomy, 5E Model, Gamification, Andragogy, Curriculum Design, Teacher Training]
 
 - title: TGT – Social Studies
   org: Demonstration School, RIE Mysuru (NCERT)
   date: "June 2022 – April 2023"
-  description: "Transacted CBSE-based Social Science curriculum for Grades 6–9. Served as Resource Person for 'Transformation of Assessment Practices at Secondary Stage' — a national teacher professional development initiative. Delivered 'Training on Life Skills' for Key Resource Persons (KRPs) from Andhra Pradesh. Applied instructional design principles to structure scaffolded classroom and co-curricular programmes."
+  bullets:
+    - "Transacted CBSE-based Social Science curriculum for Grades 6–9"
+    - "Resource Person for 'Transformation of Assessment Practices at Secondary Stage' — national teacher professional development initiative"
+    - "Delivered 'Training on Life Skills' for Key Resource Persons (KRPs) from Andhra Pradesh"
+    - "Applied instructional design principles to structure scaffolded classroom and co-curricular programmes"
   tags: [CBSE Curriculum, Assessment Design, Resource Person, Scaffolded Learning, Life Skills]
 
 - title: English Trainer
   org: LingoQ (Online)
   date: "Aug 2020 – Apr 2022"
-  description: "Coached 100+ students in Spoken English, Creative Composition, and Public Speaking with a focus on LSRW skills. Designed and delivered personalised virtual learning plans adapted to diverse learner profiles. Managed individual and group sessions while maintaining learner records and reporting progress."
+  bullets:
+    - "Coached 100+ students in Spoken English, Creative Composition, and Public Speaking (LSRW focus)"
+    - "Designed and delivered personalised virtual learning plans adapted to diverse learner profiles"
+    - "Managed individual and group sessions, maintaining learner records and reporting progress"
   tags: [LSRW, Virtual Facilitation, Personalised Learning, English Coaching]
 
 - title: Kannada Trainer
   org: Multibhashi (Online)
   date: "Aug 2020 – Nov 2020"
-  description: "Trained non-native speakers in conversational and written Kannada. Developed custom instructional materials specifically designed for second-language acquisition."
+  bullets:
+    - "Trained non-native speakers in conversational and written Kannada"
+    - "Developed custom instructional materials designed for second-language acquisition"
   tags: [Language Instruction, Material Design, Kannada]
