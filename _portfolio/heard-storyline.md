@@ -261,21 +261,26 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
 <div class="port-section">
   <img src="/assets/images/heard-storyline.png" />
   <span class="port-section-label">A Snapshot of the Course</span>
+  <div class="course-snapshot"><div class="port-section">
+  <span class="port-section-label">A Snapshot of the Course</span>
+  <p style="margin-bottom:1rem;">Click on the course screenshot to view a snapshot.</p>
   <div class="course-snapshot">
     <div class="snapshot-topbar">
-      <span>≡ &nbsp; scenario</span>
-      <span>RESOURCES</span>
+      <span>≡ &nbsp; microlearning · articulate rise 360</span>
+      <span>8 min · HEARD framework</span>
     </div>
-    <div class="snapshot-img-wrap">
-      <div class="snapshot-card">
-        <p class="sc-label">Articulate Storyline · Scenario Module</p>
-        <h2>When It All Goes Wrong</h2>
-        <p class="sc-sub">Handling a high-stakes parent call as an academic coordinator</p>
-        <p class="sc-meta">3 decisions · ~8 minutes</p>
-        <span class="snapshot-btn">Begin</span>
+    <a href="https://nayanapsychologist-spec.github.io/heard-training/" target="_blank" rel="noopener" class="snapshot-img-wrap">
+      <img src="/assets/images/heard-rise.png" alt="HEARD Framework — Rise 360 course preview" />
+      <div class="snapshot-overlay">
+        <span class="snapshot-overlay-btn">Launch course →</span>
       </div>
+    </a>
+    <div class="snapshot-caption">
+      <span>Click the image to experience the course</span>
+      <a href="https://nayanapsychologist-spec.github.io/heard-training/" target="_blank" rel="noopener">Launch course →</a>
     </div>
-    <img src="/assets/images/heard-storyline.png" />
+  </div>
+</div>
     <div class="snapshot-caption">Click on the course screenshot to access it</div>
   </div>
 </div>
