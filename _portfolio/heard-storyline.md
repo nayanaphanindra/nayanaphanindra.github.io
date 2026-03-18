@@ -259,6 +259,7 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
 </div>
 
 <div class="port-section">
+  <img src="/assets/images/heard-storyline.png" />
   <span class="port-section-label">A Snapshot of the Course</span>
   <div class="course-snapshot">
     <div class="snapshot-topbar">
@@ -274,6 +275,7 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
         <span class="snapshot-btn">Begin</span>
       </div>
     </div>
+    <img src="/assets/images/heard-storyline.png" />
     <div class="snapshot-caption">Click on the course screenshot to access it</div>
   </div>
 </div>
