@@ -313,15 +313,15 @@ excerpt: "A microlearning module for academic coordinators at an edtech provider
   <div class="deliverables-grid">
     <div class="deliverable-card">
       <span class="d-type">Pitch Deck</span>
-      <span class="d-format">PowerPoint · v2</span>
+      <a href="https://docs.google.com/presentation/d/1eCL6ygnjJuZnIhReg-PhUhSkIbCgqRhR/edit?slide=id.p1#slide=id.p1" target="_blank" rel="noopener" class="d-format">PowerPoint · v2 ↗</a>
     </div>
     <div class="deliverable-card">
       <span class="d-type">Executive Summary</span>
-      <span class="d-format">Word</span>
+      <a href="https://docs.google.com/document/d/1YQwA-XxeC4p9BlVbZEWXracedP-aSjYy/edit" target="_blank" rel="noopener" class="d-format">Word ↗</a>
     </div>
     <div class="deliverable-card">
       <span class="d-type">Module Storyboard</span>
-      <span class="d-format">Word · SME reviewed</span>
+      <a href="https://docs.google.com/document/d/13HWfHVVWAGE2I9RlpK5BzQtvKeBBbmva/edit" target="_blank" rel="noopener" class="d-format">Word · SME reviewed ↗</a>
     </div>
     <div class="deliverable-card">
       <span class="d-type">Animated Stat Block</span>
@@ -337,11 +337,11 @@ excerpt: "A microlearning module for academic coordinators at an edtech provider
     </div>
     <div class="deliverable-card">
       <span class="d-type">HEARD Reference Card</span>
-      <span class="d-format">PDF · A5 landscape</span>
+      <a href="https://drive.google.com/file/d/1fsiTfeU7lcBVt4DohgEbegJKbrI_zWmq/view" target="_blank" rel="noopener" class="d-format">PDF · A5 landscape ↗</a>
     </div>
     <div class="deliverable-card">
       <span class="d-type">Process Document</span>
-      <span class="d-format">Word · ID Portfolio</span>
+      <a href="https://docs.google.com/document/d/17CZSkVAfwg-zaez_SZqll8CWF83pkjki/edit" target="_blank" rel="noopener" class="d-format">Word · ID Portfolio ↗</a>
     </div>
     <div class="deliverable-card">
       <span class="d-type">Slide Layout Reference</span>
