@@ -539,10 +539,16 @@ section { padding: 6rem 0; }
 }
 
 /* ── POST / PORTFOLIO PAGES ── */
-.post-page, .portfolio-page {
+.post-page {
   padding-top: calc(var(--nav-h) + 4rem);
   padding-bottom: 6rem;
 }
+.portfolio-page {
+  padding-top: var(--nav-h);
+  padding-bottom: 6rem;
+}
+.portfolio-page .post-content { max-width: 100%; }
+.portfolio-page .back-link { margin: 2rem 0 0; }
 .post-hero { margin-bottom: 4rem; border-bottom: 2px solid var(--line); padding-bottom: 3rem; }
 .post-hero h1 { margin-bottom: 1.25rem; color: var(--ink); }
 .post-meta { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--ink-muted); font-weight: 600; flex-wrap: wrap; }
