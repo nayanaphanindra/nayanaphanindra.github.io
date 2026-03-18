@@ -1,250 +1,284 @@
 ---
-layout: default
-title: Home
+layout: portfolio_item
+title: "When It All Goes Wrong"
+type: "Portfolio · Instructional Design"
+tools: "Articulate Storyline 360"
+year: "2025"
+excerpt: "A branching scenario module for academic coordinators at an edtech provider — built to simulate high-stakes parent calls under pressure."
 ---
 
-<section id="home">
-  <div class="container">
-    <div class="hero-inner">
+<style>
+.port-hero-band {
+  background: #0d1f3c;
+  margin: -2rem -1rem 3rem -1rem;
+  padding: 3.5rem 2rem 3rem;
+  border-radius: 4px;
+}
+.port-hero-band .port-type {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #5dcaa5;
+  margin-bottom: 1rem;
+  display: block;
+}
+.port-hero-band h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+.port-hero-band .port-subtitle {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+  font-style: italic;
+  line-height: 1.7;
+  max-width: 60ch;
+  margin: 0;
+}
+.port-section {
+  margin-bottom: 3.5rem;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.port-section:last-child { border-bottom: none; }
+.port-section-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+.port-section p {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+  max-width: none;
+}
+.process-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+.process-step {
+  padding: 1.75rem;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper-2);
+}
+.process-step .step-number {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+.process-step h3 {
+  font-family: var(--font-sans, sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+.process-step p {
+  font-size: 0.93rem;
+  color: var(--ink-soft);
+  line-height: 1.8;
+  margin: 0;
+}
+.course-snapshot {
+  border: 1.5px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+.snapshot-topbar {
+  background: #0d1f3c;
+  padding: 0.65rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.snapshot-topbar span {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.06em;
+  font-family: sans-serif;
+}
+.snapshot-img-wrap {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+.snapshot-img-wrap img {
+  width: 100%;
+  display: block;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+.snapshot-img-wrap:hover img {
+  transform: scale(1.02);
+  opacity: 0.88;
+}
+.snapshot-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13,31,60,0.5);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.snapshot-img-wrap:hover .snapshot-overlay { opacity: 1; }
+.snapshot-overlay-btn {
+  background: #5dcaa5;
+  color: #0d1f3c;
+  padding: 0.8rem 2.25rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-family: sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.snapshot-caption {
+  padding: 0.85rem 1.25rem;
+  background: #0d1f3c;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.38);
+  font-family: sans-serif;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.snapshot-caption a {
+  color: #5dcaa5;
+  font-style: normal;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.snapshot-caption a:hover { text-decoration: underline; }
+.reflection-block {
+  background: var(--paper-2);
+  border-left: 4px solid var(--accent);
+  padding: 1.5rem 2rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1.5rem;
+}
+.reflection-block p {
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: var(--ink-soft);
+  margin: 0 0 1rem 0;
+}
+.reflection-block p:last-child { margin: 0; }
+.closing-quote {
+  background: #0d1f3c;
+  border-radius: 6px;
+  padding: 2.5rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+.closing-quote p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.25rem;
+  font-style: italic;
+  color: rgba(255,255,255,0.88);
+  line-height: 1.75;
+  margin: 0;
+  max-width: none;
+}
+@media (max-width: 640px) {
+  .process-grid { grid-template-columns: 1fr; }
+  .port-hero-band { margin: -1rem -0.5rem 2rem; padding: 2.5rem 1.25rem 2rem; }
+}
+</style>
 
-      <div class="hero-text">
-        <p class="hero-eyebrow">Instructional Designer · Bangalore, India</p>
-        <h1 class="hero-title">Nayana<br><em>Phanindra</em></h1>
-        <p class="hero-tagline">From K–12 classrooms to corporate training — designing learning experiences that change behaviour, not just awareness.</p>
-        <a href="#portfolio" class="hero-cta">
-          Explore my portfolio
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-      </div>
+<div class="port-hero-band">
+  <span class="port-type">Portfolio · Instructional Design</span>
+  <h1>When It All Goes Wrong</h1>
+  <p class="port-subtitle">A branching scenario module for academic coordinators at an edtech provider — built to simulate high-stakes parent calls under pressure.</p>
+</div>
 
-      <div class="hero-photo-wrap">
-        <div class="hero-photo">
-          <!-- To add your photo: upload it as assets/images/nayana.jpg, then remove the comment tags below -->
-          <!-- <img src="{{ '/assets/images/nayana.jpg' | relative_url }}" alt="Nayana Phanindra"> -->
-          <div class="hero-photo-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
-            <span>Add your photo</span>
-          </div>
-        </div>
-      </div>
+<div class="port-section">
+  <span class="port-section-label">The Brief</span>
+  <p>Academic coordinators at edtech companies are the first point of contact when something goes wrong. With board exams three weeks away, a parent discovers her son's tutor taught the wrong syllabus all term. The coordinator has 10 minutes to de-escalate, commit to a plan, and close the call with trust intact.</p>
+  <p>The brief: build a short scenario that puts coordinators inside that call — not just reading about it.</p>
+</div>
 
+<div class="port-section">
+  <span class="port-section-label">The Challenge</span>
+  <p>Most customer-handling training tells people what to do. It doesn't make them practise doing it under pressure, with a distressed parent waiting for an answer.</p>
+  <p>The design challenge was to create a simulation realistic enough to feel uncomfortable — and structured enough that the feedback actually teaches something when a choice goes wrong.</p>
+</div>
+
+<div class="port-section">
+  <span class="port-section-label">My Process</span>
+  <div class="process-grid">
+    <div class="process-step">
+      <span class="step-number">01 – Analysis</span>
+      <h3>Finding the real gap</h3>
+      <p>Refund logs and escalation records told a consistent story: no structured call-handling guidance existed. The gap wasn't motivation — it was training.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-number">02 – Design</span>
+      <h3>Building the HEARD framework</h3>
+      <p>Developed the application of the framework to this situation. Simulation demonstration as a complement to the previously developed Rise 360 Module.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-number">03 – Development</span>
+      <h3>Articulate Storyline</h3>
+      <p>A branching scenario built to simulate the pressure of a live parent call with three high-stakes decision points.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-number">04 – Review</span>
+      <h3>Storyboard-first workflow</h3>
+      <p>Model storyboard produced before final production to validate the branching logic and feedback language with stakeholders.</p>
     </div>
   </div>
-</section>
+</div>
 
-
-<section id="about">
-  <div class="container">
-    <div class="about-inner">
-
-      <div class="about-text fade-in">
-        <span class="section-label">About</span>
-        <h2>I design learning that transfers — not learning that ticks a box.</h2>
-        <p>With roots in K–12 education and national-level teacher training at NCERT, I bring a deep understanding of how people learn — and how to design for it intentionally.</p>
-        <p>I specialise in building scaffolded, learner-centric experiences: from needs analysis and curriculum design to facilitation and evaluation. Whether the learner is a Grade 8 student or a corporate professional, the goal is the same — meaningful transfer, not just completion.</p>
-        <div class="stats-row">
-          <div class="stat-item">
-            <div class="stat-number">4+</div>
-            <div class="stat-label">Years Experience</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">4</div>
-            <div class="stat-label">Certifications</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-number">100+</div>
-            <div class="stat-label">Learners Coached</div>
-          </div>
-        </div>
+<div class="port-section">
+  <span class="port-section-label">A Snapshot of the Course</span>
+  <div class="course-snapshot">
+    <div class="snapshot-topbar">
+      <span>≡ &nbsp; scenario · articulate storyline 360</span>
+      <span>8 min · 3 decisions</span>
+    </div>
+    <a href="https://nayanapsychologist-spec.github.io/storyline-simulation/story.html" target="_blank" rel="noopener" class="snapshot-img-wrap">
+      <img src="{{ '/assets/images/heard-storyline.png' | relative_url }}" alt="When It All Goes Wrong — Storyline scenario preview" />
+      <div class="snapshot-overlay">
+        <span class="snapshot-overlay-btn">Launch scenario →</span>
       </div>
-
-      <div class="skills-column fade-in">
-        {% for group in site.data.skills %}
-        <h3>{{ group.category }}</h3>
-        <div class="skill-tags">
-          {% for skill in group.items %}
-          <span class="skill-tag">{{ skill }}</span>
-          {% endfor %}
-        </div>
-        {% endfor %}
-      </div>
-
+    </a>
+    <div class="snapshot-caption">
+      <span>Click the image to experience the scenario</span>
+      <a href="https://nayanapsychologist-spec.github.io/storyline-simulation/story.html" target="_blank" rel="noopener">Launch course →</a>
     </div>
   </div>
-</section>
+</div>
 
-
-<section id="experience">
-  <div class="container">
-    <div class="experience-header fade-in">
-      <div>
-        <span class="section-label">Experience</span>
-        <h2>Where I've worked</h2>
-      </div>
-    </div>
-
-    <div class="timeline">
-      {% for job in site.data.experience %}
-      <div class="timeline-item">
-        <div class="timeline-meta">
-          <div class="timeline-date">{{ job.date }}</div>
-          <div class="timeline-org">{{ job.org }}</div>
-        </div>
-        <div class="timeline-content">
-          <h3>{{ job.title }}</h3>
-          {% if job.bullets %}
-          <ul style="padding-left:1.25rem; list-style:disc; margin-bottom:0.75rem;">
-            {% for bullet in job.bullets %}
-            <li style="font-size:0.95rem; color:var(--ink-soft); line-height:1.8; margin-bottom:0.35rem;">{{ bullet }}</li>
-            {% endfor %}
-          </ul>
-          {% elsif job.description %}
-          <p>{{ job.description }}</p>
-          {% endif %}
-          {% if job.tags %}
-          <div class="timeline-tags">
-            {% for tag in job.tags %}
-            <span class="timeline-tag">{{ tag }}</span>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </div>
-      {% endfor %}
-    </div>
+<div class="port-section">
+  <span class="port-section-label">Reflection</span>
+  <div class="reflection-block">
+    <p>The hardest part of this project wasn't the branching logic or the script — it was the slides. Storyline's "blank canvas" is total freedom until you're staring at a misaligned text box, wondering why it doesn't match your vision. Getting the layout right — consistent spacing, character placement, and button styling — required more iteration than any other part of the build.</p>
+    <p>I realised that small details, like a 4px corner radius versus a pill-shaped button, significantly impact the learner's immersion. If I were to do this again, I'd nail the visual details of a single "master" slide before duplicating. Building structure first and styling later forced me to revisit alignment decisions far too many times.</p>
   </div>
-</section>
-
-
-<section id="portfolio">
-  <div class="container">
-    <div class="portfolio-header fade-in">
-      <span class="section-label">Selected Works</span>
-      <h2>Projects I'm proud of</h2>
-    </div>
-
-    <div class="portfolio-grid">
-      {% assign portfolio_items = site.portfolio | sort: 'date' | reverse %}
-      {% if portfolio_items.size > 0 %}
-        {% for item in portfolio_items %}
-        <div class="portfolio-card">
-          {% if item.type %}<p class="card-type">{{ item.type }}</p>{% endif %}
-          <h3 class="card-title">{{ item.title }}</h3>
-          <p class="card-desc">{{ item.excerpt | strip_html | truncate: 140 }}</p>
-          <a href="{{ item.url | relative_url }}" class="card-link">
-            View project
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
-        </div>
-        {% endfor %}
-      {% else %}
-        <div class="portfolio-card">
-          <p class="card-type">E-Learning Module</p>
-          <h3 class="card-title">Your First Project Title</h3>
-          <p class="card-desc">Add your portfolio items by creating files in the _portfolio folder. Each file becomes a card here automatically.</p>
-          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
-        </div>
-        <div class="portfolio-card">
-          <p class="card-type">Curriculum Design</p>
-          <h3 class="card-title">Your Second Project</h3>
-          <p class="card-desc">Describe what you built, the tools you used, and the learning outcome it achieved.</p>
-          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
-        </div>
-        <div class="portfolio-card">
-          <p class="card-type">Facilitation Design</p>
-          <h3 class="card-title">Your Third Project</h3>
-          <p class="card-desc">Even a quick summary with context, challenge, and solution is enough to make a strong impression.</p>
-          <span class="card-link" style="opacity:0.4; cursor:default;">Coming soon</span>
-        </div>
-      {% endif %}
-    </div>
+  <div class="closing-quote">
+    <p>Visual design in e-learning isn't decoration.<br>It's the difference between a course that feels credible<br>and one that feels like a draft.</p>
   </div>
-</section>
-
-
-<section id="blog">
-  <div class="container">
-    <div class="blog-header fade-in">
-      <span class="section-label">Blog</span>
-      <h2>Thoughts on learning design</h2>
-    </div>
-
-    {% assign recent_posts = site.posts | limit: 6 %}
-    {% if recent_posts.size > 0 %}
-    <div class="blog-grid">
-      {% for post in recent_posts %}
-      <article class="blog-card fade-in">
-        <div class="blog-meta">
-          <span class="blog-date">{{ post.date | date: "%b %d, %Y" }}</span>
-          {% if post.category %}<span class="blog-category">{{ post.category }}</span>{% endif %}
-        </div>
-        <h3 class="blog-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
-        <p class="blog-excerpt">{{ post.excerpt | strip_html }}</p>
-        <a href="{{ post.url | relative_url }}" class="blog-read-more">Read more →</a>
-      </article>
-      {% endfor %}
-    </div>
-    {% else %}
-    <p class="no-posts">Posts will appear here once you start writing. Add your first post to the <code>_posts</code> folder to get started.</p>
-    {% endif %}
-  </div>
-</section>
-
-
-<section id="contact">
-  <div class="container">
-    <div class="contact-inner">
-
-      <div class="contact-left fade-in">
-        <span class="section-label">Get in Touch</span>
-        <h2>Let's work together</h2>
-        <p>Open to freelance projects, full-time roles, and consulting conversations. If you're building learning experiences that matter, I'd love to connect.</p>
-        <div class="contact-links">
-          <a href="mailto:{{ site.email }}" class="contact-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-            {{ site.email }}
-          </a>
-          {% if site.linkedin_url %}
-          <a href="{{ site.linkedin_url }}" class="contact-link" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-            LinkedIn Profile
-          </a>
-          {% endif %}
-          <a href="{{ '/assets/Nayana_Phanindra_Resume.pdf' | relative_url }}" class="contact-link" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Download Resume
-          </a>
-        </div>
-      </div>
-
-      <div class="fade-in">
-        <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Your name" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea>
-          </div>
-          <p class="form-note">I typically respond within 2–3 business days.</p>
-          <button type="submit" class="form-submit">Send message →</button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</section>
+</div>
