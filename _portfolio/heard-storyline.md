@@ -274,7 +274,7 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
     </a>
     <div class="snapshot-caption">
       <span>Click the image to experience the course</span>
-      <a href="https://nayanapsychologist-spec.github.io/heard-training/" target="_blank" rel="noopener">Launch course →</a>
+      <a href="https://nayanapsychologist-spec.github.io/heard-storyline/" target="_blank" rel="noopener">Launch course →</a>
     </div>
   </div>
 </div>
