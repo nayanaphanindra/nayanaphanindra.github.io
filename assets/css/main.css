@@ -215,6 +215,10 @@ section { padding: 6rem 0; }
 }
 .hero-photo-placeholder svg { width: 52px; height: 52px; stroke: var(--line); }
 
+.hero-photo img ~ .hero-photo-placeholder {
+  display: none;
+}
+
 /* ── ABOUT ── */
 #about { background: var(--paper-2); }
 .about-inner {
