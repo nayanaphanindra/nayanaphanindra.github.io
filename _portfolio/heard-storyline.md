@@ -266,8 +266,8 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
       <span>≡ &nbsp; microlearning · articulate rise 360</span>
       <span>8 min · HEARD framework</span>
     </div>
-    <a href="https://nayanapsychologist-spec.github.io/heard-storyline/" target="_blank" rel="noopener" class="snapshot-img-wrap">
-      <img src="/assets/images/heard-rise.storyline" alt="HEARD Framework — Rise 360 course preview" />
+    <a href="https://nayanapsychologist-spec.github.io/storyline-simulation/story.html" target="_blank" rel="noopener" class="snapshot-img-wrap">
+      <img src="/assets/images/heard-storyline.png" alt="HEARD Framework — Storyline preview" />
       <div class="snapshot-overlay">
         <span class="snapshot-overlay-btn">Launch course →</span>
       </div>
