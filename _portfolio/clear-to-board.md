@@ -363,15 +363,15 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
         <strong>Clear to Board — Live Prototype</strong><br>
         A deck inspection simulation. Find the violations before time runs out.
       </div>
-      <button class="proto-btn" onclick="document.getElementById('ctb-panel').style.display='none';document.getElementById('ctb-frame').style.display='block';">Launch simulation →</button>
+      <button class="proto-btn" onclick="document.getElementById(&#39;ctb-panel&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-frame&#39;).style.display=&#39;block&#39;;">Launch simulation →</button>
     </div>
     <div class="proto-frame" id="ctb-frame">
       <iframe src="https://nayanaphanindra.github.io/prototype/clear-to-board.html" title="Clear to Board simulation" allowfullscreen></iframe>
       <div class="proto-ctrls">
         <span>Experiencing issues? Try fullscreen for best results.</span>
         <div style="display:flex;gap:0.5rem;">
-          <button class="proto-ctrl" onclick="document.getElementById('ctb-fs').style.display='flex';document.getElementById('ctb-fsi').src='https://nayanaphanindra.github.io/prototype/clear-to-board.html';document.body.style.overflow='hidden';">Fullscreen</button>
-          <button class="proto-ctrl" onclick="document.getElementById('ctb-frame').style.display='none';document.getElementById('ctb-panel').style.display='flex';">Collapse</button>
+          <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-fs&#39;).style.display=&#39;flex&#39;;document.getElementById(&#39;ctb-fsi&#39;).src=&#39;https://nayanaphanindra.github.io/prototype/clear-to-board.html&#39;;document.body.style.overflow=&#39;hidden&#39;;">Fullscreen</button>
+          <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-frame&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-panel&#39;).style.display=&#39;flex&#39;;">Collapse</button>
         </div>
       </div>
     </div>
@@ -381,7 +381,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
 <div class="proto-fs" id="ctb-fs">
   <div class="proto-fs-bar">
     <span>Clear to Board · Port State Control Simulation</span>
-    <button class="proto-ctrl" onclick="document.getElementById('ctb-fs').style.display='none';document.getElementById('ctb-fsi').src='';document.body.style.overflow='';">Exit Fullscreen</button>
+    <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-fs&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-fsi&#39;).src=&#39;&#39;;document.body.style.overflow=&#39;&#39;;">Exit Fullscreen</button>
   </div>
   <iframe id="ctb-fsi" src="" title="Clear to Board fullscreen" allowfullscreen></iframe>
 </div>
