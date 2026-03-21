@@ -207,19 +207,19 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .hud-vessel.detained-status { background: rgba(184,50,40,0.2); color: #e06055; border-color: rgba(184,50,40,0.4); }
 
 /* DECK SCENE WRAP */
-.deck-wrap { flex: 1; position: relative; overflow: hidden; min-height: 0; }
+.deck-wrap { flex: 1; position: relative; overflow-y: auto; min-height: 0; }
 .deck-bg {
   position: absolute; inset: 0;
   background:
     radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%),
     linear-gradient(180deg,
-      #6a8fa8 0%, #8aafc8 10%, #a0c0d5 22%, #b8d0e0 32%,
-      #d0e0ea 38%, #c8d8e5 40%,
-      #5a7f9a 42%, #4a6f8a 47%, #3a5f7a 50%,
-      #2a3040 52%, #1e2530 53%,
-      #5a6268 55%, #4e585e 57%, #545e64 59%, #4a5560 61%,
-      #505a60 63%, #48535a 65%, #4e5860 67%, #465258 69%,
-      #4c5660 71%, #445058 73%, #4a5560 75%, #424e56 77%,
+      #6a8fa8 0%, #8aafc8 6%, #a0c0d5 14%, #b8d0e0 22%,
+      #d0e0ea 28%, #c8d8e5 30%,
+      #5a7f9a 32%, #4a6f8a 36%, #3a5f7a 38%,
+      #2a3040 40%, #1e2530 41%,
+      #5a6268 43%, #4e585e 45%, #545e64 48%, #4a5560 51%,
+      #505a60 54%, #48535a 57%, #4e5860 60%, #465258 63%,
+      #4c5660 66%, #445058 69%, #4a5560 72%, #424e56 76%,
       #3a4450 85%, #2e3845 92%, #222e3a 100%);
 }
 .deck-bg::before {
@@ -233,7 +233,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 }
 .deck-bg::after {
   content: '';
-  position: absolute; top: 50%; left: 0; right: 0; height: 6%;
+  position: absolute; top: 40%; left: 0; right: 0; height: 6%;
   background: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(60,75,85,0.9) 38px, rgba(60,75,85,0.9) 44px);
   border-top: 3px solid rgba(70,85,95,0.95);
   border-bottom: 2px solid rgba(50,65,75,0.7);
@@ -384,6 +384,35 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .btn-clear-item.selected { background: rgba(26,99,64,0.5); border-color: #4db87a; color: white; }
 .btn-dismiss { padding: 11px 16px; border-radius: 5px; border: 1px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-dim); background: transparent; transition: background 0.2s; }
 .btn-dismiss:hover { background: rgba(255,255,255,0.05); color: var(--text-mid); }
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute; top: 25%; left: 50%;
+  transform: translateX(-50%);
+  display: none; flex-direction: column; align-items: center; gap: 6px;
+  z-index: 60; pointer-events: all; cursor: pointer;
+}
+.scroll-hint.visible { display: flex; }
+.scroll-hint-text {
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #ffffff;
+  background: rgba(196,125,10,0.95);
+  padding: 5px 12px; border-radius: 3px;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+.scroll-hint-arrow {
+  width: 14px; height: 14px;
+  border-right: 2px solid rgba(255,255,255,0.9);
+  border-bottom: 2px solid rgba(255,255,255,0.9);
+  transform: rotate(45deg);
+  animation: bounce-down 1.2s ease-in-out infinite;
+}
+@keyframes bounce-down {
+  0%,100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+  50%      { transform: rotate(45deg) translateY(6px); opacity: 1; }
+}
 
 /* ACTION BAR */
 .action-bar { display: flex; align-items: center; gap: 12px; padding: 10px 1.5rem; background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); flex-shrink: 0; }
@@ -632,7 +661,13 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
       </div>
 
       <div class="deck-wrap" id="deck-wrap">
-        <div class="deck-bg"></div>
+        <div id="deck-inner" style="position:relative;width:100%;height:160%;min-height:800px;">
+        <div class="deck-bg" style="position:absolute;inset:0;"></div>
+        <!-- Scroll hint sits at 25% from top of deck-inner = just at horizon -->
+        <div class="scroll-hint" id="scroll-hint" onclick="scrollToDeck()">
+          <div class="scroll-hint-text">Scroll down to inspect the deck</div>
+          <div class="scroll-hint-arrow"></div>
+        </div>
         <div class="superstructure"></div>
         <div class="cargo-container"></div>
         <div class="fire-door-frame"></div>
@@ -657,17 +692,17 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
           <div style="width:14px;height:14px;border-radius:50%;border:1.5px dashed rgba(255,180,0,0.3);"></div>
         </div>
 
-        <!-- SCENE LABELS — small monospace tags anchored to each element -->
-        <!-- Fire door label -->
-        <div style="position:absolute;bottom:38%;left:18%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fire door</div>
-        <!-- Escape route label -->
-        <div style="position:absolute;bottom:8%;left:33%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Escape route</div>
-        <!-- Life ring label -->
-        <div style="position:absolute;top:47%;left:54%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Life ring mount</div>
-        <!-- Extinguisher label -->
-        <div style="position:absolute;bottom:38%;right:14%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Extinguisher</div>
-        <!-- Fuel vent label -->
-        <div style="position:absolute;bottom:38%;left:57%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fuel vent</div>
+        <!-- SCENE LABELS — positioned directly adjacent to each element -->
+        <!-- Fire door label: sits just above the door -->
+        <div style="position:absolute;bottom:36%;left:19%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fire door</div>
+        <!-- Escape route label: sits below the cargo block -->
+        <div style="position:absolute;bottom:10%;left:33%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Escape route</div>
+        <!-- Life ring label: sits just below the circle -->
+        <div style="position:absolute;top:61%;left:50%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Life ring mount</div>
+        <!-- Extinguisher label: sits directly below the extinguisher (right:22% = ~78% from left, unit is 22px wide) -->
+        <div style="position:absolute;bottom:14%;right:19%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Extinguisher</div>
+        <!-- Fuel vent label: sits directly below the vent (left:62%) -->
+        <div style="position:absolute;bottom:14%;left:59%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fuel vent</div>
 
         <!-- HOTSPOTS -->
         <div class="hotspot" id="hs-A" style="left:24%;top:72%;" onclick="openCard('A')">
@@ -706,7 +741,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
           </div>
         </div>
 
-        <div class="hotspot" id="hs-E" style="left:66%;top:72%;" onclick="openCard('E')">
+        <div class="hotspot" id="hs-E" style="left:64%;top:66%;" onclick="openCard('E')">
           <div class="hs-ring">E</div>
           <div class="hs-tooltip">
             <div class="hs-tooltip-label">Observation E</div>
@@ -736,6 +771,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       <div class="action-bar">
@@ -756,9 +792,9 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
         <div><div class="outcome-title" id="db-title"></div><div class="outcome-sub" id="db-sub"></div></div>
       </div>
       <div class="debrief-stats">
-        <div class="stat-cell"><div class="stat-num" id="db-correct">0</div><div class="stat-label">Correct calls</div></div>
-        <div class="stat-cell"><div class="stat-num" id="db-wrong">0</div><div class="stat-label">Wrong calls</div></div>
-        <div class="stat-cell"><div class="stat-num" id="db-time">—</div><div class="stat-label">Time left</div></div>
+        <div class="stat-cell"><div class="stat-num" id="db-correct">0</div><div class="stat-label">Correct assessments</div></div>
+        <div class="stat-cell"><div class="stat-num" id="db-wrong">0</div><div class="stat-label">Incorrect assessments</div></div>
+        <div class="stat-cell"><div class="stat-num" id="db-time">—</div><div class="stat-label">Time remaining</div></div>
       </div>
       <div class="debrief-items-list" id="db-list"></div>
       <div class="debrief-footer">
@@ -854,6 +890,17 @@ let submitted = false;
 let ticker = null;
 let finalSecs = 240;
 
+function dismissScrollHint() {
+  const hint = document.getElementById('scroll-hint');
+  if (hint) hint.classList.remove('visible');
+}
+
+function scrollToDeck() {
+  dismissScrollHint();
+  const wrap = document.getElementById('deck-wrap');
+  if (wrap) wrap.scrollTo({ top: 320, behavior: 'smooth' });
+}
+
 function beginMission() {
   const guided = document.getElementById('guided-toggle').checked;
   go(guided ? 'screen-guided' : 'screen-z1');
@@ -901,6 +948,15 @@ function initZone2() {
 
   buildProgressPips();
   go('screen-z2');
+  // Show scroll hint after 1.5s
+  const hint = document.getElementById('scroll-hint');
+  if (hint) {
+    hint.classList.remove('visible');
+    setTimeout(() => hint.classList.add('visible'), 1500);
+  }
+  // Dismiss hint on scroll
+  const wrap = document.getElementById('deck-wrap');
+  if (wrap) wrap.addEventListener('scroll', dismissScrollHint, { once: true });
   ticker = setInterval(tick, 1000);
 }
 
@@ -927,6 +983,7 @@ function tick() {
 
 function openCard(id) {
   if (submitted) return;
+  dismissScrollHint();
   currentCard = id;
   const item = ITEMS[id];
 
@@ -1018,27 +1075,27 @@ function buildDebrief() {
   const btnProceed = document.getElementById('btn-proceed-z3');
   const btnReview = document.getElementById('btn-review-regs');
 
-  // WEIGHTED SCORING: any missed active violation = automatic Detained
+  // WEIGHTED SCORING: any missed active violation = automatic failed inspection
   // Speed and correct clears cannot compensate for a missed safety deficiency
   if (missedViolations === 0 && wrongCount === 0) {
     stamp.className = 'outcome-stamp cleared'; stamp.textContent = '✓';
-    title.textContent = 'Vessel cleared';
-    sub.textContent = 'All observations correctly assessed. No outstanding detainable deficiencies. Vessel may proceed.';
+    title.textContent = 'Inspection complete';
+    sub.textContent = 'Every observation correctly assessed. All four violations identified, false alarm correctly cleared. This is the standard required of a PSCO before signing off a boarding.';
     btnProceed.disabled = false;
     btnReview.style.display = 'none';
   } else if (missedViolations === 0 && wrongCount > 0) {
     stamp.className = 'outcome-stamp conditional'; stamp.textContent = '⚠';
-    title.textContent = 'Cleared — with caution';
-    sub.textContent = 'All violations correctly identified, but one observation was incorrectly flagged. No safety risk, but false alarms waste time and damage port relationships.';
+    title.textContent = 'Inspection complete — false alarm noted';
+    sub.textContent = 'All violations correctly identified. However, one compliant observation was incorrectly flagged. In practice, a false alarm creates unnecessary paperwork, delays the vessel, and undermines your credibility with the master.';
     btnProceed.disabled = false;
     btnReview.style.display = 'none';
   } else {
-    // Any missed violation = Detained, regardless of score or time remaining
+    // Any missed violation = failed inspection, regardless of score or time remaining
     stamp.className = 'outcome-stamp detained'; stamp.textContent = '✗';
-    title.textContent = 'Vessel detained';
+    title.textContent = missedViolations === 1 ? 'Inspection incomplete — violation missed' : 'Inspection incomplete — violations missed';
     sub.textContent = missedViolations === 1
-      ? 'One safety violation was missed. In a real inspection, this vessel would not be cleared. A single missed detainable deficiency is sufficient grounds for detention — correct calls elsewhere do not compensate.'
-      : 'Multiple violations missed. This vessel should not have been cleared. Correct calls elsewhere do not offset a missed safety deficiency — integrity of the inspection is non-negotiable.';
+      ? 'One active safety violation was not identified. A PSCO who misses a detainable deficiency has not completed the inspection — regardless of how many other observations were correct. Review the regulation and retry.'
+      : 'Multiple active violations were not identified. Each missed deficiency represents a real risk to crew safety. Correct calls elsewhere do not offset a missed violation — the standard is 100%.';
     btnProceed.disabled = true;
     btnReview.style.display = '';
   }
@@ -1057,11 +1114,11 @@ function buildDebrief() {
     const div = document.createElement('div');
     let cls, ico, verdictText;
 
-    if (r.correct && r.shouldFlag) { cls = 'correct-flag'; ico = '✓'; verdictText = 'Correctly flagged'; }
-    else if (r.correct && !r.shouldFlag) { cls = 'correct-clear'; ico = '✓'; verdictText = 'Correctly cleared'; }
-    else if (!r.correct && r.shouldFlag && r.decided === 'clear') { cls = 'missed-flag'; ico = '✗'; verdictText = 'Should have been flagged'; }
-    else if (!r.correct && !r.shouldFlag && r.decided === 'flag') { cls = 'false-alarm'; ico = '!'; verdictText = 'False alarm — not a violation'; }
-    else { cls = 'undecided'; ico = '—'; verdictText = 'Not assessed'; }
+    if (r.correct && r.shouldFlag) { cls = 'correct-flag'; ico = '✓'; verdictText = 'Violation correctly identified'; }
+    else if (r.correct && !r.shouldFlag) { cls = 'correct-clear'; ico = '✓'; verdictText = 'Correctly assessed — no deficiency'; }
+    else if (!r.correct && r.shouldFlag && r.decided === 'clear') { cls = 'missed-flag'; ico = '✗'; verdictText = 'Missed — this is a detainable deficiency'; }
+    else if (!r.correct && !r.shouldFlag && r.decided === 'flag') { cls = 'false-alarm'; ico = '!'; verdictText = 'False alarm — not a recordable deficiency'; }
+    else { cls = 'undecided'; ico = '—'; verdictText = 'Not assessed — treated as missed'; }
 
     div.className = 'db-item ' + cls;
     div.innerHTML = `
