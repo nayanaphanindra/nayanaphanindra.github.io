@@ -156,7 +156,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 /* ══════════════════════════════
    ZONE 2 LAYOUT
 ══════════════════════════════ */
-.zone-body { flex: 1; display: grid; grid-template-columns: 290px 1fr; min-height: calc(100vh - 49px); }
+.zone-body { flex: 1; display: grid; grid-template-columns: 290px 1fr; height: calc(100vh - 49px); overflow: hidden; }
 
 /* BRIEFING PANEL */
 .brief-panel { background: var(--navy-mid); padding: 1.75rem 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem; border-right: 1px solid var(--border); }
@@ -207,7 +207,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .hud-vessel.detained-status { background: rgba(184,50,40,0.2); color: #e06055; border-color: rgba(184,50,40,0.4); }
 
 /* DECK SCENE WRAP */
-.deck-wrap { flex: 1; position: relative; overflow: hidden; min-height: 440px; }
+.deck-wrap { flex: 1; position: relative; overflow: hidden; min-height: 0; }
 .deck-bg {
   position: absolute; inset: 0;
   background:
@@ -643,6 +643,32 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
         <div class="extinguisher"></div>
         <div class="ext-tag">EXP</div>
 
+        <!-- FUEL VENT — more visible: yellow cap, pipe body, warning stripe -->
+        <div style="position:absolute;bottom:26%;left:62%;width:28px;height:38px;pointer-events:none;">
+          <!-- Pipe body -->
+          <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:14px;height:32px;background:linear-gradient(180deg,#6a7a85,#3a4a55);border-radius:3px 3px 0 0;"></div>
+          <!-- Cap / vent head -->
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:10px;background:#c8a020;border-radius:3px;"></div>
+          <!-- Warning stripe on pipe -->
+          <div style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:14px;height:5px;background:repeating-linear-gradient(90deg,#c8a020 0px,#c8a020 3px,#3a4a55 3px,#3a4a55 6px);"></div>
+        </div>
+        <!-- Dashed outline where No Smoking sign should be -->
+        <div style="position:absolute;bottom:36%;left:66%;width:26px;height:20px;border:1.5px dashed rgba(255,180,0,0.3);border-radius:2px;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+          <div style="width:14px;height:14px;border-radius:50%;border:1.5px dashed rgba(255,180,0,0.3);"></div>
+        </div>
+
+        <!-- SCENE LABELS — small monospace tags anchored to each element -->
+        <!-- Fire door label -->
+        <div style="position:absolute;bottom:38%;left:18%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fire door</div>
+        <!-- Escape route label -->
+        <div style="position:absolute;bottom:8%;left:33%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Escape route</div>
+        <!-- Life ring label -->
+        <div style="position:absolute;top:47%;left:54%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Life ring mount</div>
+        <!-- Extinguisher label -->
+        <div style="position:absolute;bottom:38%;right:14%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Extinguisher</div>
+        <!-- Fuel vent label -->
+        <div style="position:absolute;bottom:38%;left:57%;font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;white-space:nowrap;pointer-events:none;background:rgba(13,31,53,0.6);padding:2px 5px;border-radius:2px;border:0.5px solid rgba(255,255,255,0.1);">Fuel vent</div>
+
         <!-- HOTSPOTS -->
         <div class="hotspot" id="hs-A" style="left:24%;top:72%;" onclick="openCard('A')">
           <div class="hs-ring">A</div>
@@ -680,7 +706,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
           </div>
         </div>
 
-        <div class="hotspot" id="hs-E" style="left:66%;top:60%;" onclick="openCard('E')">
+        <div class="hotspot" id="hs-E" style="left:66%;top:72%;" onclick="openCard('E')">
           <div class="hs-ring">E</div>
           <div class="hs-tooltip">
             <div class="hs-tooltip-label">Observation E</div>
