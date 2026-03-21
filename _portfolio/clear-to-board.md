@@ -460,6 +460,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
   ></iframe>
 </div>
 
+{% raw %}
 <script>
 function launchProto() {
   document.getElementById('proto-collapsed').style.display = 'none';
@@ -484,6 +485,7 @@ function closeFullscreen() {
   document.body.style.overflow = '';
 }
 </script>
+{% endraw %}
 
 <div class="port-section">
   <span class="port-section-label">The Vision</span>
