@@ -221,11 +221,6 @@ excerpt: "A branching scenario module for academic coordinators at an edtech pro
 </div>
 
 <div class="port-section">
-  <span class="port-section-label">The Problem</span>
-  <p>Test paragraph.</p>
-</div>
-
-<div class="port-section">
   <span class="port-section-label">The Brief</span>
   <p>Academic coordinators at edtech companies are the first point of contact when something goes wrong. With board exams three weeks away, a parent discovers her son's tutor taught the wrong syllabus all term. The coordinator has 10 minutes to de-escalate, commit to a plan, and close the call with trust intact.</p>
   <p>The brief: build a short scenario that puts coordinators inside that call — not just reading about it.</p>
