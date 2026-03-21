@@ -1,15 +1,14 @@
 ---
-layout: portfolio_item
-title: "Clear to Board"
-type: "Portfolio · Instructional Design"
-tools: "HTML / CSS / JS"
-year: "2025"
-excerpt: "A compliance simulation."
+layout: default
 ---
-
-<div style="background:#0d1f3c; padding:2rem; margin-bottom:2rem;">
-  <h1 style="color:#fff;">Clear to Board</h1>
-  <p style="color:rgba(255,255,255,0.7);">A compliance simulation for Port State Control Officers.</p>
-</div>
-
-<p>Can you see this text?</p>
+<main class="portfolio-page">
+  <div class="container">
+    <a href="{{ '/#portfolio' | relative_url }}" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      Back to Portfolio
+    </a>
+    <article class="post-content fade-in">
+      {{ content }}
+    </article>
+  </div>
+</main>
