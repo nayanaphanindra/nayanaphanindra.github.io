@@ -195,109 +195,6 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
   margin: 0;
   max-width: none;
 }
-.proto-wrap {
-  border: 1.5px solid var(--line);
-  border-radius: 8px;
-  overflow: hidden;
-  margin: 1.5rem 0;
-}
-.proto-bar {
-  background: #0d1f3c;
-  padding: 0.65rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.proto-bar span {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.45);
-  letter-spacing: 0.06em;
-  font-family: sans-serif;
-}
-.proto-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  background: var(--paper-2);
-  gap: 1rem;
-}
-.proto-desc {
-  font-size: 0.95rem;
-  color: var(--ink-soft);
-  line-height: 1.6;
-}
-.proto-desc strong { color: var(--ink); font-weight: 600; }
-.proto-btn {
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.6rem 1.25rem;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  font-family: sans-serif;
-  white-space: nowrap;
-}
-.proto-frame { display: none; }
-.proto-frame iframe {
-  width: 100%;
-  height: 560px;
-  border: none;
-  display: block;
-}
-.proto-ctrls {
-  background: #0d1f3c;
-  padding: 0.6rem 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.proto-ctrls span {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.35);
-  font-family: sans-serif;
-  font-style: italic;
-}
-.proto-ctrl {
-  background: none;
-  border: 1px solid rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.6);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.35rem 0.85rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-family: sans-serif;
-}
-.proto-fs {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 9999;
-  background: #0d1f3c;
-  flex-direction: column;
-}
-.proto-fs iframe { flex: 1; width: 100%; border: none; }
-.proto-fs-bar {
-  background: #0a1829;
-  padding: 0.65rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-}
-.proto-fs-bar span {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.45);
-  font-family: sans-serif;
-}
 @media (max-width: 640px) {
   .process-grid { grid-template-columns: 1fr; }
   .port-hero-band { margin: -1rem -0.5rem 2rem; padding: 2.5rem 1.25rem 2rem; }
@@ -352,38 +249,18 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
 
 <div class="port-section">
   <span class="port-section-label">Try the Prototype</span>
-  <p>The simulation runs directly below. Launch it to experience the inspection scenario — or open it fullscreen for the intended experience.</p>
-  <div class="proto-wrap">
-    <div class="proto-bar">
-      <span>clear to board · html/css/js prototype</span>
-      <span>4 min · port state control simulation</span>
+  <p>Click the image below to launch the live simulation in a new tab.</p>
+  <a href="https://nayanaphanindra.github.io/prototype/clear-to-board.html" target="_blank" rel="noopener" style="display:block;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;margin:1.5rem 0;text-decoration:none;">
+    <div style="background:#0d1f3c;padding:0.65rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:0.78rem;color:rgba(255,255,255,0.45);font-family:sans-serif;">clear to board · html/css/js prototype</span>
+      <span style="font-size:0.78rem;color:rgba(255,255,255,0.45);font-family:sans-serif;">4 min · port state control simulation</span>
     </div>
-    <div class="proto-panel" id="ctb-panel">
-      <div class="proto-desc">
-        <strong>Clear to Board — Live Prototype</strong><br>
-        A deck inspection simulation. Find the violations before time runs out.
-      </div>
-      <button class="proto-btn" onclick="document.getElementById(&#39;ctb-panel&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-frame&#39;).style.display=&#39;block&#39;;">Launch simulation →</button>
+    <img src="/assets/images/clear-to-board-preview.png" alt="Clear to Board prototype preview" style="width:100%;display:block;" />
+    <div style="background:#0d1f3c;padding:0.85rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:0.78rem;color:rgba(255,255,255,0.38);font-family:sans-serif;font-style:italic;">Click to launch the simulation in a new tab</span>
+      <span style="font-size:0.75rem;color:#5dcaa5;font-family:sans-serif;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Launch →</span>
     </div>
-    <div class="proto-frame" id="ctb-frame">
-      <iframe src="https://nayanaphanindra.github.io/prototype/clear-to-board.html" title="Clear to Board simulation" allowfullscreen></iframe>
-      <div class="proto-ctrls">
-        <span>Experiencing issues? Try fullscreen for best results.</span>
-        <div style="display:flex;gap:0.5rem;">
-          <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-fs&#39;).style.display=&#39;flex&#39;;document.getElementById(&#39;ctb-fsi&#39;).src=&#39;https://nayanaphanindra.github.io/prototype/clear-to-board.html&#39;;document.body.style.overflow=&#39;hidden&#39;;">Fullscreen</button>
-          <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-frame&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-panel&#39;).style.display=&#39;flex&#39;;">Collapse</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="proto-fs" id="ctb-fs">
-  <div class="proto-fs-bar">
-    <span>Clear to Board · Port State Control Simulation</span>
-    <button class="proto-ctrl" onclick="document.getElementById(&#39;ctb-fs&#39;).style.display=&#39;none&#39;;document.getElementById(&#39;ctb-fsi&#39;).src=&#39;&#39;;document.body.style.overflow=&#39;&#39;;">Exit Fullscreen</button>
-  </div>
-  <iframe id="ctb-fsi" src="" title="Clear to Board fullscreen" allowfullscreen></iframe>
+  </a>
 </div>
 
 <div class="port-section">
