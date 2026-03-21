@@ -332,7 +332,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
   display: none;
   flex-direction: column;
 }
-.prototype-fullscreen.active { display: flex; }
+.prototype-fullscreen.active { display: flex !important; }
 .prototype-fullscreen iframe { flex: 1; width: 100%; border: none; }
 .prototype-fullscreen-bar {
   background: #0a1829;
@@ -418,7 +418,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
         <strong>Clear to Board — Live Prototype</strong><br>
         A deck inspection simulation. Find the violations before time runs out.
       </div>
-      <button class="prototype-launch-btn" onclick="launchProto()">Launch simulation →</button>
+      <button class="prototype-launch-btn" onclick="this.closest('.prototype-wrap').querySelector('.prototype-collapsed').style.display='none'; this.closest('.prototype-wrap').querySelector('.prototype-iframe-wrap').classList.add('active');">Launch simulation →</button>
     </div>
     <div class="prototype-iframe-wrap" id="proto-iframe-wrap">
       <iframe
@@ -430,11 +430,11 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
       <div class="prototype-controls">
         <span>Experiencing issues? Try fullscreen for best results.</span>
         <div style="display:flex; gap:0.5rem;">
-          <button class="proto-ctrl-btn" onclick="openFullscreen()">
+          <button class="proto-ctrl-btn" onclick="document.getElementById('proto-fullscreen').style.display='flex'; document.getElementById('proto-fullscreen-iframe').src='https://nayanaphanindra.github.io/prototype/clear-to-board.html'; document.body.style.overflow='hidden';">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
             Fullscreen
           </button>
-          <button class="proto-ctrl-btn" onclick="collapseProto()">
+          <button class="proto-ctrl-btn" onclick="this.closest('.prototype-wrap').querySelector('.prototype-iframe-wrap').classList.remove('active'); this.closest('.prototype-wrap').querySelector('.prototype-collapsed').style.display='flex';">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
             Collapse
           </button>
@@ -447,7 +447,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
 <div id="proto-fullscreen" class="prototype-fullscreen">
   <div class="prototype-fullscreen-bar">
     <span>Clear to Board · Port State Control Simulation</span>
-    <button class="proto-ctrl-btn" onclick="closeFullscreen()">
+    <button class="proto-ctrl-btn" onclick="document.getElementById('proto-fullscreen').style.display='none'; document.getElementById('proto-fullscreen-iframe').src=''; document.body.style.overflow='';">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 9 3 3 9 3"/><polyline points="15 15 21 21 15 21"/><line x1="3" y1="3" x2="10" y2="10"/><line x1="14" y1="14" x2="21" y2="21"/></svg>
       Exit Fullscreen
     </button>
@@ -460,32 +460,7 @@ excerpt: "A performance-based compliance simulation for Port State Control Offic
   ></iframe>
 </div>
 
-{% raw %}
-<script>
-function launchProto() {
-  document.getElementById('proto-collapsed').style.display = 'none';
-  document.getElementById('proto-iframe-wrap').classList.add('active');
-}
-function collapseProto() {
-  document.getElementById('proto-iframe-wrap').classList.remove('active');
-  document.getElementById('proto-collapsed').style.display = 'flex';
-}
-function openFullscreen() {
-  var fs = document.getElementById('proto-fullscreen');
-  var fsi = document.getElementById('proto-fullscreen-iframe');
-  fsi.src = 'https://nayanaphanindra.github.io/prototype/clear-to-board.html';
-  fs.classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-function closeFullscreen() {
-  var fs = document.getElementById('proto-fullscreen');
-  var fsi = document.getElementById('proto-fullscreen-iframe');
-  fs.classList.remove('active');
-  fsi.src = '';
-  document.body.style.overflow = '';
-}
-</script>
-{% endraw %}
+
 
 <div class="port-section">
   <span class="port-section-label">The Vision</span>
