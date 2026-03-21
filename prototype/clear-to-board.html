@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clear to Board — Port Inspection Training</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #0d1f35;
+  --navy-mid: #162840;
+  --amber: #c47d0a;
+  --amber-light: #fdf4e0;
+  --red: #b83228;
+  --red-light: #fdf0ee;
+  --green: #1a6340;
+  --green-light: #e8f5ee;
+  --border: rgba(255,255,255,0.08);
+  --text-bright: rgba(255,255,255,0.9);
+  --text-mid: rgba(255,255,255,0.55);
+  --text-dim: rgba(255,255,255,0.3);
+  --white: #ffffff;
+  --surface: #f4f7fa;
+}
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--navy); color: var(--text-bright); overflow-x: hidden; }
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ══════════════════════════════
+   TITLE
+══════════════════════════════ */
+#screen-title { background: var(--navy); align-items: stretch; }
+.title-hero { flex: 1; display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.title-left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 4rem 3rem 4rem 4rem; background: var(--navy); z-index: 2;
+}
+.title-right { position: relative; overflow: hidden; }
+.title-scene {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%),
+    linear-gradient(180deg,
+      #6a8fa8 0%, #8aafc8 10%, #a0c0d5 22%, #b8d0e0 32%,
+      #d0e0ea 38%, #c8d8e5 40%,
+      #5a7f9a 42%, #4a6f8a 47%, #3a5f7a 50%,
+      #2a3040 52%, #1e2530 53%,
+      #5a6268 55%, #4e585e 57%, #545e64 59%, #4a5560 61%,
+      #505a60 63%, #48535a 65%, #4e5860 67%, #465258 69%,
+      #4c5660 71%, #445058 73%, #4a5560 75%, #424e56 77%,
+      #3a4450 85%, #2e3845 92%, #222e3a 100%);
+}
+.title-scene::before {
+  content: '';
+  position: absolute; top: 2%; left: 5%; width: 90%; height: 32%;
+  background:
+    radial-gradient(ellipse 180px 45px at 18% 40%, rgba(255,255,255,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 50px at 62% 55%, rgba(255,255,255,0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 120px 35px at 80% 35%, rgba(255,255,255,0.4) 0%, transparent 70%);
+}
+.title-scene::after {
+  content: '';
+  position: absolute; top: 50%; left: 0; right: 0; height: 6%;
+  background: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(60,75,85,0.9) 38px, rgba(60,75,85,0.9) 44px);
+  border-top: 3px solid rgba(70,85,95,0.95);
+}
+.title-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(13,31,53,0.6) 0%, rgba(13,31,53,0) 60%); }
+.mission-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber);
+  border: 1px solid rgba(196,125,10,0.4); padding: 5px 12px; border-radius: 3px;
+  margin-bottom: 1.5rem; width: fit-content;
+}
+.mission-chip::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.title-h1 { font-family: 'Fraunces', serif; font-size: clamp(3rem,5vw,5rem); font-weight: 600; line-height: 0.95; color: var(--white); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+.title-tagline { font-family: 'Fraunces', serif; font-size: clamp(1rem,1.8vw,1.3rem); font-weight: 300; font-style: italic; color: var(--text-mid); margin-bottom: 2rem; }
+.title-desc { font-size: 14px; line-height: 1.8; color: var(--text-mid); margin-bottom: 2.5rem; max-width: 380px; border-left: 2px solid rgba(196,125,10,0.4); padding-left: 1rem; }
+.zone-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 2.5rem; }
+.zone-row { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; background: rgba(255,255,255,0.04); }
+.zone-num-badge { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--navy); background: rgba(255,255,255,0.9); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 500; }
+.zone-row-name { font-size: 13px; color: var(--text-bright); flex: 1; }
+.zone-row-mech { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+.badge-live { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 3px; background: rgba(196,125,10,0.2); color: var(--amber); border: 1px solid rgba(196,125,10,0.3); }
+.badge-stub { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); }
+.btn-start { display: inline-flex; align-items: center; gap: 10px; background: var(--amber); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; padding: 14px 28px; border-radius: 5px; border: none; cursor: pointer; transition: background 0.2s; }
+.btn-start:hover { background: #d48c1a; }
+
+.mode-toggle {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-top: 1rem;
+  padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.mode-toggle:hover { background: rgba(255,255,255,0.06); }
+.mode-toggle input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; accent-color: var(--amber); width: 15px; height: 15px; cursor: pointer; }
+.mode-toggle-text { font-size: 12px; line-height: 1.5; }
+.mode-toggle-title { color: var(--text-bright); font-weight: 500; margin-bottom: 2px; }
+.mode-toggle-desc { color: var(--text-dim); font-size: 11px; }
+
+/* GUIDED MODE — regulation cards before zone 2 */
+#screen-guided { background: var(--navy); align-items: center; justify-content: center; padding: 3rem 2rem; }
+.guided-inner { max-width: 680px; width: 100%; }
+.guided-header { margin-bottom: 1.5rem; }
+.guided-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+.guided-title { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+.guided-sub { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+.reg-cards { display: flex; flex-direction: column; gap: 10px; margin: 1.5rem 0; }
+.reg-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; overflow: hidden; }
+.reg-card-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; transition: background 0.2s; }
+.reg-card-header:hover { background: rgba(255,255,255,0.04); }
+.reg-badge { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 3px; background: rgba(196,125,10,0.2); color: var(--amber); border: 1px solid rgba(196,125,10,0.3); flex-shrink: 0; }
+.reg-card-title { font-size: 13px; font-weight: 500; color: var(--text-bright); flex: 1; }
+.reg-card-chevron { font-size: 11px; color: var(--text-dim); transition: transform 0.2s; }
+.reg-card.open .reg-card-chevron { transform: rotate(90deg); }
+.reg-card-body { display: none; padding: 0 16px 14px; font-size: 13px; color: var(--text-mid); line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px; }
+.reg-card.open .reg-card-body { display: block; }
+.reg-card-body strong { color: var(--text-bright); font-weight: 500; }
+.guided-actions { display: flex; gap: 10px; margin-top: 1.5rem; }
+
+/* LEARN MORE in debrief */
+.learn-more-toggle {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  color: var(--amber); cursor: pointer; margin-top: 6px;
+  background: none; border: none; padding: 0;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+.learn-more-body {
+  display: none; margin-top: 8px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 5px;
+  border-left: 2px solid rgba(196,125,10,0.4);
+  font-size: 12px; color: var(--text-mid); line-height: 1.7;
+}
+.learn-more-body.open { display: block; }
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+.zone-nav { background: rgba(0,0,0,0.4); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; position: sticky; top: 0; z-index: 200; backdrop-filter: blur(8px); }
+.nav-brand { font-family: 'Fraunces', serif; font-size: 14px; font-weight: 600; color: var(--white); margin-right: 2rem; padding: 14px 0; white-space: nowrap; }
+.nav-zones { display: flex; }
+.nav-zone { font-size: 12px; color: var(--text-dim); padding: 14px 14px; border-bottom: 2px solid transparent; white-space: nowrap; display: flex; align-items: center; gap: 6px; font-family: 'DM Mono', monospace; }
+.nav-zone.done { color: var(--text-mid); border-bottom-color: rgba(26,99,64,0.8); }
+.nav-zone.active { color: var(--white); border-bottom-color: var(--amber); }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* ══════════════════════════════
+   ZONE 2 LAYOUT
+══════════════════════════════ */
+.zone-body { flex: 1; display: grid; grid-template-columns: 290px 1fr; min-height: calc(100vh - 49px); }
+
+/* BRIEFING PANEL */
+.brief-panel { background: var(--navy-mid); padding: 1.75rem 1.5rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.25rem; border-right: 1px solid var(--border); }
+.brief-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px; }
+.brief-zone-name { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; color: var(--white); line-height: 1.15; margin-bottom: 3px; }
+.brief-mech-tag { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--amber); }
+.brief-hr { height: 1px; background: var(--border); }
+.brief-script { font-size: 13px; line-height: 1.8; color: var(--text-mid); font-style: italic; padding: 0.9rem 1rem; background: rgba(255,255,255,0.04); border-radius: 5px; border-left: 2px solid rgba(196,125,10,0.5); }
+
+/* HOW TO PLAY — prominent instruction box */
+.how-to-play {
+  background: rgba(196,125,10,0.1);
+  border: 1px solid rgba(196,125,10,0.3);
+  border-radius: 6px; padding: 1rem;
+}
+.htp-title { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; }
+.htp-step { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; font-size: 12px; line-height: 1.5; }
+.htp-step:last-child { margin-bottom: 0; }
+.htp-num { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: var(--navy); background: var(--amber); width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.htp-text { color: var(--text-mid); }
+.htp-text strong { color: var(--text-bright); font-weight: 500; }
+
+.brief-outcome { padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 5px; border: 1px solid var(--border); font-size: 12px; color: var(--text-mid); line-height: 1.6; }
+.brief-outcome strong { color: var(--text-bright); display: block; margin-bottom: 3px; font-size: 11px; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; }
+.drives-stack { display: flex; flex-direction: column; gap: 5px; }
+.drive-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.cd-pill { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; background: rgba(196,125,10,0.2); color: var(--amber); padding: 2px 6px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; border: 1px solid rgba(196,125,10,0.3); }
+.drive-text { color: var(--text-mid); }
+.drive-how { color: var(--text-dim); font-size: 11px; display: block; margin-top: 1px; }
+
+/* SCENE PANEL */
+.scene-panel { background: #1a2535; display: flex; flex-direction: column; overflow: hidden; }
+
+/* HUD */
+.hud-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 1.5rem; background: rgba(0,0,0,0.4); border-bottom: 1px solid var(--border); flex-shrink: 0; gap: 1rem; }
+.hud-timer { font-family: 'DM Mono', monospace; font-size: 1.6rem; font-weight: 500; color: var(--white); letter-spacing: 0.08em; line-height: 1; }
+.hud-timer.warn { color: #e05555; animation: redpulse 0.7s infinite; }
+@keyframes redpulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hud-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 3px; }
+.hud-score { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 500; color: var(--white); }
+.hud-progress { display: flex; gap: 4px; align-items: center; }
+.progress-pip { width: 28px; height: 6px; border-radius: 3px; background: rgba(255,255,255,0.1); transition: background 0.3s; }
+.progress-pip.flagged { background: var(--red); }
+.progress-pip.cleared-pip { background: #4db87a; }
+.progress-pip.reviewed { background: rgba(255,255,255,0.3); }
+.hud-vessel { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; padding: 5px 12px; border-radius: 3px; background: rgba(196,125,10,0.15); color: var(--amber); border: 1px solid rgba(196,125,10,0.3); letter-spacing: 0.06em; }
+.hud-vessel.clear-status { background: rgba(26,99,64,0.2); color: #4db87a; border-color: rgba(26,99,64,0.4); }
+.hud-vessel.detained-status { background: rgba(184,50,40,0.2); color: #e06055; border-color: rgba(184,50,40,0.4); }
+
+/* DECK SCENE WRAP */
+.deck-wrap { flex: 1; position: relative; overflow: hidden; min-height: 440px; }
+.deck-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.5) 100%),
+    linear-gradient(180deg,
+      #6a8fa8 0%, #8aafc8 10%, #a0c0d5 22%, #b8d0e0 32%,
+      #d0e0ea 38%, #c8d8e5 40%,
+      #5a7f9a 42%, #4a6f8a 47%, #3a5f7a 50%,
+      #2a3040 52%, #1e2530 53%,
+      #5a6268 55%, #4e585e 57%, #545e64 59%, #4a5560 61%,
+      #505a60 63%, #48535a 65%, #4e5860 67%, #465258 69%,
+      #4c5660 71%, #445058 73%, #4a5560 75%, #424e56 77%,
+      #3a4450 85%, #2e3845 92%, #222e3a 100%);
+}
+.deck-bg::before {
+  content: '';
+  position: absolute; top: 2%; left: 5%; width: 90%; height: 32%;
+  background:
+    radial-gradient(ellipse 180px 45px at 18% 40%, rgba(255,255,255,0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 50px at 62% 55%, rgba(255,255,255,0.5) 0%, transparent 70%),
+    radial-gradient(ellipse 120px 35px at 80% 35%, rgba(255,255,255,0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
+.deck-bg::after {
+  content: '';
+  position: absolute; top: 50%; left: 0; right: 0; height: 6%;
+  background: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(60,75,85,0.9) 38px, rgba(60,75,85,0.9) 44px);
+  border-top: 3px solid rgba(70,85,95,0.95);
+  border-bottom: 2px solid rgba(50,65,75,0.7);
+  pointer-events: none;
+}
+.superstructure { position: absolute; top: 12%; right: 6%; width: 32%; height: 38%; background: linear-gradient(160deg, #5a6570 0%, #4a5560 35%, #3a4550 70%, #2e3845 100%); clip-path: polygon(0% 100%, 0% 25%, 8% 15%, 8% 5%, 32% 5%, 32% 0%, 68% 0%, 68% 5%, 92% 5%, 92% 15%, 100% 25%, 100% 100%); pointer-events: none; }
+.superstructure::before { content: ''; position: absolute; top: 18%; left: 8%; right: 8%; height: 35%; background: repeating-linear-gradient(90deg, rgba(100,145,180,0.6) 0px, rgba(100,145,180,0.6) 22px, rgba(50,65,80,0.8) 22px, rgba(50,65,80,0.8) 32px); border-radius: 2px; }
+.cargo-container { position: absolute; bottom: 28%; left: 8%; width: 160px; height: 80px; background: linear-gradient(160deg, #8B4513 0%, #7a3d10 40%, #6B3310 100%); border-radius: 2px; pointer-events: none; }
+.cargo-container::before { content: 'CARGO'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.3); letter-spacing: 0.2em; }
+.fire-door { position: absolute; bottom: 17%; left: 22%; width: 52px; height: 88px; background: linear-gradient(135deg, #c0392b 0%, #a52520 100%); border: 2px solid #8a1a15; transform: perspective(200px) rotateY(-35deg); transform-origin: left center; pointer-events: none; }
+.fire-door::before { content: 'FIRE DOOR'; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) perspective(200px) rotateY(35deg); font-family: 'DM Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.65); text-align: center; white-space: nowrap; }
+.fire-door::after { content: ''; position: absolute; bottom: -6px; left: -2px; width: 14px; height: 8px; background: #c8860a; clip-path: polygon(0 100%, 50% 0, 100% 100%); }
+.fire-door-frame { position: absolute; bottom: 17%; left: 22%; width: 56px; height: 92px; border: 3px solid #4a5560; border-bottom: none; pointer-events: none; }
+.ring-mount { position: absolute; top: 54%; left: 52%; width: 48px; height: 48px; border: 3px solid rgba(80,95,110,0.8); border-radius: 50%; background: rgba(30,37,48,0.6); pointer-events: none; }
+.ring-mount::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 26px; height: 26px; border: 2px dashed rgba(255,255,255,0.15); border-radius: 50%; }
+.escape-arrow { position: absolute; bottom: 12%; left: 36%; font-size: 28px; color: rgba(245,208,138,0.3); pointer-events: none; }
+.escape-block { position: absolute; bottom: 17%; left: 34%; width: 55px; height: 40px; background: linear-gradient(145deg, #9B835A 0%, #8B7350 100%); border-radius: 2px; pointer-events: none; }
+.escape-block::after { content: ''; position: absolute; bottom: 100%; left: 10px; width: 45px; height: 28px; background: linear-gradient(145deg, #a8906a 0%, #987860 100%); border-radius: 2px; }
+.extinguisher { position: absolute; bottom: 20%; right: 22%; width: 22px; height: 56px; background: linear-gradient(180deg, #d0392b 0%, #b52a22 60%, #8a1a15 100%); border-radius: 11px 11px 3px 3px; pointer-events: none; }
+.extinguisher::before { content: ''; position: absolute; top: -8px; left: 50%; transform: translateX(-50%); width: 14px; height: 10px; background: #8a9aaa; border-radius: 7px 7px 0 0; }
+.ext-tag { position: absolute; bottom: 20%; right: calc(22% - 30px); width: 26px; height: 18px; background: #fef3dc; border: 1px solid var(--amber); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 8px; font-weight: 500; color: var(--red); transform: rotate(-8deg); pointer-events: none; }
+
+/* ══════════════════════════════
+   HOTSPOTS — new interaction model
+══════════════════════════════ */
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 50;
+  cursor: pointer;
+}
+/* The visible pulse ring */
+.hs-ring {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+  color: rgba(255,255,255,0.8);
+  transition: all 0.2s;
+  animation: hs-pulse 3s infinite;
+  position: relative;
+}
+@keyframes hs-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255,255,255,0.3); }
+  60% { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+}
+.hotspot:hover .hs-ring, .hotspot.hovered .hs-ring {
+  border-color: var(--amber);
+  background: rgba(196,125,10,0.2);
+  color: var(--amber);
+  animation: none;
+  box-shadow: 0 0 0 6px rgba(196,125,10,0.15);
+}
+.hotspot.decided-flag .hs-ring {
+  border-color: #e06055; background: rgba(224,96,85,0.25);
+  color: #e06055; animation: none; box-shadow: none;
+}
+.hotspot.decided-clear .hs-ring {
+  border-color: #4db87a; background: rgba(77,184,122,0.25);
+  color: #4db87a; animation: none; box-shadow: none;
+}
+/* Post-submit */
+.hotspot.result-correct .hs-ring { border-color: #4db87a; background: rgba(77,184,122,0.3); color: #4db87a; animation: none; }
+.hotspot.result-missed .hs-ring { border-color: #e06055; background: rgba(224,96,85,0.3); color: #e06055; animation: none; box-shadow: 0 0 0 6px rgba(224,96,85,0.15); }
+.hotspot.result-wrong .hs-ring { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.3); animation: none; }
+
+/* Hover tooltip — observation summary */
+.hs-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%; transform: translateX(-50%);
+  background: rgba(13,31,53,0.97);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 7px;
+  padding: 10px 12px;
+  width: 220px;
+  pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.hotspot:hover .hs-tooltip { opacity: 1; }
+.hs-tooltip-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber); margin-bottom: 5px; }
+.hs-tooltip-obs { font-size: 12px; color: var(--text-bright); line-height: 1.5; margin-bottom: 6px; }
+.hs-tooltip-hint { font-size: 11px; color: var(--text-dim); font-style: italic; }
+
+/* ══════════════════════════════
+   DETAIL CARD (modal-style)
+══════════════════════════════ */
+.card-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 150;
+  display: none;
+  align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
+}
+.card-overlay.open { display: flex; }
+.detail-card {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  width: 400px; max-width: 90%;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+  overflow: hidden;
+  animation: card-in 0.2s ease;
+}
+@keyframes card-in { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.card-header {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.card-zone-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; }
+.card-obs-title { font-size: 15px; font-weight: 500; color: var(--white); line-height: 1.4; margin-bottom: 4px; }
+.card-reg { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--amber); }
+.card-body { padding: 1rem 1.5rem; }
+.card-section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; margin-top: 12px; }
+.card-section-label:first-child { margin-top: 0; }
+.card-observation { font-size: 13px; color: var(--text-bright); line-height: 1.6; padding: 10px 12px; background: rgba(255,255,255,0.04); border-radius: 5px; }
+.card-question { font-size: 13px; color: var(--text-mid); line-height: 1.6; font-style: italic; }
+.card-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; gap: 8px;
+}
+.btn-flag {
+  flex: 1; padding: 11px 0; border-radius: 5px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  background: rgba(184,50,40,0.2); color: #e06055;
+  border: 1px solid rgba(184,50,40,0.4);
+  transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-flag:hover { background: rgba(184,50,40,0.35); }
+.btn-flag.selected { background: rgba(184,50,40,0.5); border-color: #e06055; color: white; }
+.btn-clear-item {
+  flex: 1; padding: 11px 0; border-radius: 5px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  background: rgba(26,99,64,0.2); color: #4db87a;
+  border: 1px solid rgba(26,99,64,0.4);
+  transition: background 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-clear-item:hover { background: rgba(26,99,64,0.35); }
+.btn-clear-item.selected { background: rgba(26,99,64,0.5); border-color: #4db87a; color: white; }
+.btn-dismiss { padding: 11px 16px; border-radius: 5px; border: 1px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--text-dim); background: transparent; transition: background 0.2s; }
+.btn-dismiss:hover { background: rgba(255,255,255,0.05); color: var(--text-mid); }
+
+/* ACTION BAR */
+.action-bar { display: flex; align-items: center; gap: 12px; padding: 10px 1.5rem; background: rgba(0,0,0,0.4); border-top: 1px solid var(--border); flex-shrink: 0; }
+.btn-submit { background: var(--amber); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 22px; border-radius: 5px; border: none; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+.btn-submit:hover { background: #d48c1a; }
+.btn-submit:disabled { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); cursor: default; }
+.tally-text { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-dim); }
+
+/* ══════════════════════════════
+   DEBRIEF
+══════════════════════════════ */
+#screen-debrief { background: var(--navy); align-items: center; justify-content: center; padding: 3rem 2rem; }
+.debrief-card { max-width: 620px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; overflow: hidden; }
+.debrief-top { padding: 1.75rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: 1.25rem; }
+.outcome-stamp { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.outcome-stamp.cleared { background: rgba(26,99,64,0.25); border: 2px solid rgba(77,184,122,0.5); }
+.outcome-stamp.conditional { background: rgba(196,125,10,0.2); border: 2px solid rgba(196,125,10,0.4); }
+.outcome-stamp.detained { background: rgba(184,50,40,0.2); border: 2px solid rgba(184,50,40,0.4); }
+.outcome-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 600; color: var(--white); margin-bottom: 4px; }
+.outcome-sub { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+.debrief-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+.stat-cell { padding: 1rem 1.5rem; text-align: center; border-right: 1px solid var(--border); }
+.stat-cell:last-child { border-right: none; }
+.stat-num { font-family: 'DM Mono', monospace; font-size: 1.8rem; font-weight: 500; color: var(--white); }
+.stat-label { font-size: 11px; color: var(--text-dim); font-family: 'DM Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 3px; }
+.debrief-items-list { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+.db-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 6px; border: 1px solid transparent; }
+.db-item.correct-flag { background: rgba(26,99,64,0.12); border-color: rgba(77,184,122,0.2); }
+.db-item.correct-clear { background: rgba(26,99,64,0.08); border-color: rgba(77,184,122,0.15); }
+.db-item.missed-flag { background: rgba(184,50,40,0.12); border-color: rgba(224,96,85,0.25); }
+.db-item.false-alarm { background: rgba(196,125,10,0.08); border-color: rgba(196,125,10,0.2); }
+.db-item.undecided { background: rgba(255,255,255,0.03); border-color: rgba(255,255,255,0.07); }
+.db-ico { font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+.db-name { font-size: 13px; font-weight: 500; color: var(--text-bright); margin-bottom: 2px; }
+.db-verdict { font-family: 'DM Mono', monospace; font-size: 10px; margin-bottom: 4px; }
+.db-con { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+.debrief-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-next { background: var(--amber); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer; }
+.btn-next:hover { background: #d48c1a; }
+.btn-next:disabled { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.2); cursor: not-allowed; border: 1px solid rgba(255,255,255,0.06); }
+.btn-ghost { background: transparent; color: var(--text-mid); font-family: 'DM Sans', sans-serif; font-size: 13px; padding: 10px 20px; border-radius: 5px; border: 1px solid var(--border); cursor: pointer; }
+.btn-ghost:hover { background: rgba(255,255,255,0.05); color: var(--text-bright); }
+
+/* STUB SCREENS */
+.stub-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem; background: var(--navy); }
+.stub-card { max-width: 500px; width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 2.5rem; }
+.stub-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); background: rgba(255,255,255,0.05); border: 1px solid var(--border); display: inline-block; padding: 3px 10px; border-radius: 3px; margin-bottom: 1.25rem; }
+.stub-h { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 600; color: var(--white); margin-bottom: 0.6rem; }
+.stub-p { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 1.5rem; }
+.stub-mech-row { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 5px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); font-size: 12px; color: var(--text-mid); margin-bottom: 1.5rem; }
+.mech-pill { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; background: rgba(196,125,10,0.2); color: var(--amber); padding: 2px 7px; border-radius: 3px; }
+.stub-v-list { margin-bottom: 2rem; }
+.stub-v-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 12px; color: var(--text-mid); }
+.v-reg-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.07); color: var(--text-dim); padding: 2px 6px; border-radius: 3px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- ══ TITLE ══ -->
+<div id="screen-title" class="screen active">
+  <div class="title-hero">
+    <div class="title-left">
+      <div class="mission-chip">Mission briefing · Gamification portfolio</div>
+      <h1 class="title-h1">Clear to<br>Board</h1>
+      <p class="title-tagline">A port inspection training mission</p>
+      <p class="title-desc">You are a Port State Control Officer. Before any vessel enters these waters, you verify it is safe, crewed correctly, and environmentally compliant. Three inspection zones. One outcome.</p>
+      <div class="zone-list">
+        <div class="zone-row"><div class="zone-num-badge">1</div><span class="zone-row-name">Documentation check</span><span class="zone-row-mech">doc sort</span><span class="badge-stub">stub</span></div>
+        <div class="zone-row"><div class="zone-num-badge">2</div><span class="zone-row-name">Deck inspection</span><span class="zone-row-mech">object search</span><span class="badge-live">live</span></div>
+        <div class="zone-row"><div class="zone-num-badge">3</div><span class="zone-row-name">Engine room</span><span class="zone-row-mech">decision tree</span><span class="badge-stub">stub</span></div>
+      </div>
+      <button class="btn-start" id="btn-begin" onclick="beginMission()">Begin mission →</button>
+      <label class="mode-toggle">
+        <input type="checkbox" id="guided-toggle">
+        <div class="mode-toggle-text">
+          <div class="mode-toggle-title">Guided mode</div>
+          <div class="mode-toggle-desc">Show regulation reference cards before the inspection starts — for learners building confidence with SOLAS/MARPOL rules</div>
+        </div>
+      </label>
+    </div>
+    <div class="title-right"><div class="title-scene"></div><div class="title-overlay"></div></div>
+  </div>
+</div>
+
+<!-- ══ GUIDED MODE SCREEN ══ -->
+<div id="screen-guided" class="screen">
+  <nav class="zone-nav"><div class="nav-brand">Clear to Board</div><div class="nav-zones"><div class="nav-zone active"><div class="nav-dot"></div>Pre-mission · Regulation briefing</div></div></nav>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;background:var(--navy);">
+    <div style="max-width:680px;width:100%;">
+      <div class="guided-eyebrow">Guided mode — regulation reference</div>
+      <div class="guided-title">Before you board</div>
+      <div class="guided-sub" style="margin-bottom:1.5rem;">These are the four regulation areas you will be applying during the deck inspection. Read each one, then proceed when you are ready. You can return to this screen at any time by restarting the mission in Guided mode.</div>
+
+      <div class="reg-cards">
+
+        <div class="reg-card" id="rc1">
+          <div class="reg-card-header" onclick="toggleReg('rc1')">
+            <span class="reg-badge">SOLAS II-2</span>
+            <span class="reg-card-title">Fire protection — doors and suppression</span>
+            <span class="reg-card-chevron">▶</span>
+          </div>
+          <div class="reg-card-body">
+            SOLAS Chapter II-2 governs fire safety on vessels. A fire door's purpose is to contain fire and smoke within a compartment, buying time for evacuation. <strong>It must be self-closing and form a proper seal at all times.</strong> Any device — a wedge, a hook, a tied-back door — that prevents the door from closing is a detainable deficiency. Portable fire extinguishers must be serviced annually; an expired inspection tag is a maintenance deficiency. If multiple extinguishers are overdue, the PSCO should treat it as a systemic ISM failure, not an isolated item.
+          </div>
+        </div>
+
+        <div class="reg-card" id="rc2">
+          <div class="reg-card-header" onclick="toggleReg('rc2')">
+            <span class="reg-badge">SOLAS III</span>
+            <span class="reg-card-title">Lifesaving appliances and escape routes</span>
+            <span class="reg-card-chevron">▶</span>
+          </div>
+          <div class="reg-card-body">
+            SOLAS Chapter III covers lifesaving appliances (life rings, immersion suits, EPIRBs, liferafts) and emergency procedures. <strong>Escape routes must be unobstructed at all times</strong> — cargo, equipment, or stores in an escape corridor create a lethal hazard during evacuation. Life rings must be present in their designated mounting brackets, within their service date, and in usable condition. A missing life ring is a recordable deficiency; multiple missing appliances become detainable. The LSA Code specifies exact requirements for each appliance type.
+          </div>
+        </div>
+
+        <div class="reg-card" id="rc3">
+          <div class="reg-card-header" onclick="toggleReg('rc3')">
+            <span class="reg-badge">MARPOL I</span>
+            <span class="reg-card-title">Oil pollution prevention — placards and equipment</span>
+            <span class="reg-card-chevron">▶</span>
+          </div>
+          <div class="reg-card-body">
+            MARPOL Annex I governs the prevention of oil pollution from ships. It requires a <strong>Discharge of Oil Prohibited placard</strong> to be posted in machinery spaces and near bilge pumps. This placard is not bureaucratic — its absence signals that the crew may be unaware of, or indifferent to, their discharge obligations. On deck, MARPOL Annex I concerns are primarily documentary; the physical equipment (Oil-Water Separator, Oil Record Book) is inspected in the engine room. A missing placard on deck is a recordable deficiency; it triggers a wider inspection of environmental compliance culture.
+          </div>
+        </div>
+
+        <div class="reg-card" id="rc4">
+          <div class="reg-card-header" onclick="toggleReg('rc4')">
+            <span class="reg-badge">Signage</span>
+            <span class="reg-card-title">Advisory signage — proximity rules</span>
+            <span class="reg-card-chevron">▶</span>
+          </div>
+          <div class="reg-card-body">
+            Not every missing sign is a violation. Advisory signage requirements specify <strong>proximity to the relevant hazard</strong>, not exact placement. A No Smoking sign posted within acceptable distance of a fuel vent — even if not directly adjacent — satisfies the requirement. PSCOs are trained to distinguish between a genuinely missing sign and a sign that is present but not immediately visible. <strong>Flagging a compliant sign as a deficiency wastes inspection time and undermines your credibility.</strong> Read the environment carefully before making a call.
+          </div>
+        </div>
+
+      </div>
+
+      <div class="guided-actions">
+        <button class="btn-start" onclick="go('screen-z1')">Proceed to inspection →</button>
+        <button class="btn-ghost" onclick="go('screen-title')" style="background:transparent;color:var(--text-mid);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 20px;border-radius:5px;border:1px solid var(--border);cursor:pointer;">↩ Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ZONE 1 STUB ══ -->
+<div id="screen-z1" class="screen">
+  <nav class="zone-nav"><div class="nav-brand">Clear to Board</div><div class="nav-zones"><div class="nav-zone active"><div class="nav-dot"></div>01 · Documentation</div><div class="nav-zone"><div class="nav-dot"></div>02 · Deck</div><div class="nav-zone"><div class="nav-dot"></div>03 · Engine Room</div></div></nav>
+  <div class="stub-wrap"><div class="stub-card">
+    <div class="stub-eyebrow">Prototype stub · Full build in Storyline 360</div>
+    <h2 class="stub-h">Documentation check</h2>
+    <p class="stub-p">Before stepping on deck, the PSCO reviews four critical documents. One is expired, one is falsified — both must be identified to clear the zone.</p>
+    <div class="stub-mech-row"><span class="mech-pill">Document sort</span> Drag to Cleared or Flagged · Timed</div>
+    <div class="stub-v-list">
+      <div class="stub-v-row"><span class="v-reg-tag">SOLAS IX</span>Safety Management Certificate missing or expired</div>
+      <div class="stub-v-row"><span class="v-reg-tag">MARPOL I</span>Oil Record Book incomplete or not on board</div>
+      <div class="stub-v-row"><span class="v-reg-tag">STCW</span>Crew certificates don't match watchkeeping roster</div>
+      <div class="stub-v-row"><span class="v-reg-tag">MLC 2006</span>Rest hour records falsified or missing</div>
+    </div>
+    <button class="btn-start" onclick="initZone2()">Proceed to deck inspection →</button>
+  </div></div>
+</div>
+
+<!-- ══ ZONE 2 — FULLY BUILT ══ -->
+<div id="screen-z2" class="screen">
+  <nav class="zone-nav">
+    <div class="nav-brand">Clear to Board</div>
+    <div class="nav-zones">
+      <div class="nav-zone done"><div class="nav-dot"></div>01 · Documentation</div>
+      <div class="nav-zone active"><div class="nav-dot"></div>02 · Deck</div>
+      <div class="nav-zone"><div class="nav-dot"></div>03 · Engine Room</div>
+    </div>
+  </nav>
+  <div class="zone-body">
+
+    <!-- BRIEFING -->
+    <div class="brief-panel">
+      <div>
+        <div class="brief-eyebrow">Zone 2 of 3</div>
+        <div class="brief-zone-name">Deck inspection</div>
+        <div class="brief-mech-tag">Read · Assess · Decide · Timed</div>
+      </div>
+      <div class="brief-hr"></div>
+      <div>
+        <div class="brief-eyebrow">Mission briefing</div>
+        <div class="brief-script">"The deck tells you everything about how a vessel is run. Fire doors that close. Escape routes that are clear. Life-saving equipment that's present. Suppression that's maintained. Four minutes. Start at the bow."</div>
+      </div>
+
+      <!-- HOW TO PLAY -->
+      <div class="how-to-play">
+        <div class="htp-title">How to inspect</div>
+        <div class="htp-step">
+          <div class="htp-num">1</div>
+          <div class="htp-text"><strong>Hover</strong> over each marker on the deck to read the observation</div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">2</div>
+          <div class="htp-text"><strong>Click</strong> the marker to open the full detail card</div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">3</div>
+          <div class="htp-text"><strong>Decide</strong> — Flag as a violation, or Clear as acceptable</div>
+        </div>
+        <div class="htp-step">
+          <div class="htp-num">4</div>
+          <div class="htp-text"><strong>Submit</strong> once all markers are reviewed — or the clock runs out</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="brief-outcome">
+          <strong>Performance outcome</strong>
+          Correctly assess every observation on the deck — flagging real violations and clearing non-issues — before time expires.
+        </div>
+      </div>
+      <div class="brief-hr"></div>
+      <div>
+        <div class="brief-eyebrow" style="margin-bottom:10px;">Octalysis drives</div>
+        <div class="drives-stack">
+          <div class="drive-row"><span class="cd-pill">CD1</span><div class="drive-text">Epic meaning<span class="drive-how">Clearing a real vessel — real consequences</span></div></div>
+          <div class="drive-row"><span class="cd-pill">CD2</span><div class="drive-text">Accomplishment<span class="drive-how">Progress pips fill as each item is decided</span></div></div>
+          <div class="drive-row"><span class="cd-pill">CD3</span><div class="drive-text">Empowerment<span class="drive-how">Learner reads, judges, decides independently</span></div></div>
+          <div class="drive-row"><span class="cd-pill">CD6</span><div class="drive-text">Scarcity<span class="drive-how">4-minute countdown creates urgency</span></div></div>
+          <div class="drive-row"><span class="cd-pill">CD7</span><div class="drive-text">Unpredictability<span class="drive-how">Violation mix randomised per attempt</span></div></div>
+          <div class="drive-row"><span class="cd-pill">CD8</span><div class="drive-text">Avoidance<span class="drive-how">Wrong call = conditional pass or detention</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCENE -->
+    <div class="scene-panel">
+      <div class="hud-bar">
+        <div>
+          <div class="hud-label">Time remaining</div>
+          <div class="hud-timer" id="hud-timer">04:00</div>
+        </div>
+        <div>
+          <div class="hud-label">Items reviewed</div>
+          <div class="hud-progress" id="hud-progress"></div>
+        </div>
+        <div class="hud-vessel" id="hud-vessel">INSPECTION IN PROGRESS</div>
+      </div>
+
+      <div class="deck-wrap" id="deck-wrap">
+        <div class="deck-bg"></div>
+        <div class="superstructure"></div>
+        <div class="cargo-container"></div>
+        <div class="fire-door-frame"></div>
+        <div class="fire-door"></div>
+        <div class="ring-mount"></div>
+        <div class="escape-arrow">▲</div>
+        <div class="escape-block"></div>
+        <div class="extinguisher"></div>
+        <div class="ext-tag">EXP</div>
+
+        <!-- HOTSPOTS -->
+        <div class="hotspot" id="hs-A" style="left:24%;top:72%;" onclick="openCard('A')">
+          <div class="hs-ring">A</div>
+          <div class="hs-tooltip">
+            <div class="hs-tooltip-label">Observation A</div>
+            <div class="hs-tooltip-obs">Fire door on deck — appears to be held open with a wedge at the base.</div>
+            <div class="hs-tooltip-hint">Click to inspect and make a decision →</div>
+          </div>
+        </div>
+
+        <div class="hotspot" id="hs-B" style="left:40%;top:78%;" onclick="openCard('B')">
+          <div class="hs-ring">B</div>
+          <div class="hs-tooltip">
+            <div class="hs-tooltip-label">Observation B</div>
+            <div class="hs-tooltip-obs">Painted escape route arrow on deck — partially obscured by stacked cargo boxes.</div>
+            <div class="hs-tooltip-hint">Click to inspect and make a decision →</div>
+          </div>
+        </div>
+
+        <div class="hotspot" id="hs-C" style="left:53%;top:55%;" onclick="openCard('C')">
+          <div class="hs-ring">C</div>
+          <div class="hs-tooltip">
+            <div class="hs-tooltip-label">Observation C</div>
+            <div class="hs-tooltip-obs">Life ring mounting bracket on railing — bracket is present but the ring itself is absent.</div>
+            <div class="hs-tooltip-hint">Click to inspect and make a decision →</div>
+          </div>
+        </div>
+
+        <div class="hotspot" id="hs-D" style="left:80%;top:68%;" onclick="openCard('D')">
+          <div class="hs-ring">D</div>
+          <div class="hs-tooltip">
+            <div class="hs-tooltip-label">Observation D</div>
+            <div class="hs-tooltip-obs">Portable fire extinguisher fixed to bulkhead — inspection tag attached, date shows overdue.</div>
+            <div class="hs-tooltip-hint">Click to inspect and make a decision →</div>
+          </div>
+        </div>
+
+        <div class="hotspot" id="hs-E" style="left:66%;top:60%;" onclick="openCard('E')">
+          <div class="hs-ring">E</div>
+          <div class="hs-tooltip">
+            <div class="hs-tooltip-label">Observation E</div>
+            <div class="hs-tooltip-obs">Area near fuel vent — no visible No Smoking signage in immediate vicinity.</div>
+            <div class="hs-tooltip-hint">Click to inspect and make a decision →</div>
+          </div>
+        </div>
+
+        <!-- DETAIL CARD OVERLAY -->
+        <div class="card-overlay" id="card-overlay">
+          <div class="detail-card" id="detail-card">
+            <div class="card-header">
+              <div class="card-zone-tag" id="card-zone-tag"></div>
+              <div class="card-obs-title" id="card-obs-title"></div>
+              <div class="card-reg" id="card-reg"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-section-label">What you observe</div>
+              <div class="card-observation" id="card-observation"></div>
+              <div class="card-section-label" style="margin-top:12px;">Your assessment</div>
+              <div class="card-question" id="card-question"></div>
+            </div>
+            <div class="card-footer">
+              <button class="btn-flag" id="btn-flag" onclick="decide('flag')">✗ Flag as violation</button>
+              <button class="btn-clear-item" id="btn-clear-item" onclick="decide('clear')">✓ Clear — no issue</button>
+              <button class="btn-dismiss" onclick="closeCard()">Later</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn-submit" id="btn-submit" onclick="submitCheck()">Submit inspection →</button>
+        <span class="tally-text" id="tally-text">Hover to read each marker, then decide</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEBRIEF ══ -->
+<div id="screen-debrief" class="screen">
+  <nav class="zone-nav"><div class="nav-brand">Clear to Board</div><div class="nav-zones"><div class="nav-zone done"><div class="nav-dot"></div>01 · Documentation</div><div class="nav-zone done"><div class="nav-dot"></div>02 · Deck</div><div class="nav-zone"><div class="nav-dot"></div>03 · Engine Room</div></div></nav>
+  <div class="stub-wrap">
+    <div class="debrief-card">
+      <div class="debrief-top">
+        <div class="outcome-stamp" id="db-stamp"></div>
+        <div><div class="outcome-title" id="db-title"></div><div class="outcome-sub" id="db-sub"></div></div>
+      </div>
+      <div class="debrief-stats">
+        <div class="stat-cell"><div class="stat-num" id="db-correct">0</div><div class="stat-label">Correct calls</div></div>
+        <div class="stat-cell"><div class="stat-num" id="db-wrong">0</div><div class="stat-label">Wrong calls</div></div>
+        <div class="stat-cell"><div class="stat-num" id="db-time">—</div><div class="stat-label">Time left</div></div>
+      </div>
+      <div class="debrief-items-list" id="db-list"></div>
+      <div class="debrief-footer">
+        <button class="btn-next" id="btn-proceed-z3" onclick="go('screen-z3')">Proceed to engine room →</button>
+        <button class="btn-ghost" onclick="initZone2()">Retry this zone</button>
+        <button class="btn-ghost" id="btn-review-regs" onclick="go('screen-guided')" style="display:none;">↩ Review regulations</button>
+        <button class="btn-ghost" onclick="go('screen-title')">↩ Mission start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ZONE 3 STUB ══ -->
+<div id="screen-z3" class="screen">
+  <nav class="zone-nav"><div class="nav-brand">Clear to Board</div><div class="nav-zones"><div class="nav-zone done"><div class="nav-dot"></div>01 · Documentation</div><div class="nav-zone done"><div class="nav-dot"></div>02 · Deck</div><div class="nav-zone active"><div class="nav-dot"></div>03 · Engine Room</div></div></nav>
+  <div class="stub-wrap"><div class="stub-card">
+    <div class="stub-eyebrow">Prototype stub · Full build in Storyline 360</div>
+    <h2 class="stub-h">Engine room check</h2>
+    <p class="stub-p">The engine room is where environmental violations hide. Four scenario-based decisions — each with an immediate consequence reveal.</p>
+    <div class="stub-mech-row"><span class="mech-pill">Decision tree</span> Scenario → choose action → consequence revealed</div>
+    <div class="stub-v-list">
+      <div class="stub-v-row"><span class="v-reg-tag">MARPOL I</span>Oil-Water Separator lacks IMO certification label</div>
+      <div class="stub-v-row"><span class="v-reg-tag">MARPOL</span>Discharge of Oil Prohibited placard missing</div>
+      <div class="stub-v-row"><span class="v-reg-tag">MARPOL V</span>Garbage Management Plan absent or not followed</div>
+      <div class="stub-v-row"><span class="v-reg-tag">SOLAS II-1</span>Emergency generator untested — no drill log record</div>
+    </div>
+    <button class="btn-start" onclick="go('screen-title')">↩ Return to mission start</button>
+  </div></div>
+</div>
+
+<script>
+// ── VIOLATION DATA ──
+const ITEMS = {
+  A: {
+    label: 'Observation A · Fire door',
+    title: 'Fire door propped open with wedge',
+    reg: 'SOLAS Chapter II-2',
+    observation: 'A self-closing fire door on the main deck is held open by a wooden wedge at its base. The door closer mechanism appears functional but is being physically prevented from operating.',
+    question: 'Does this constitute a detainable deficiency under SOLAS Chapter II-2?',
+    isViolation: true,
+    consequence: 'Detainable deficiency. Fire doors form the passive fire boundary — a propped door can allow fire and smoke to spread between compartments, directly endangering crew during an emergency.',
+    learnMore: 'SOLAS Chapter II-2 requires fire doors to be self-closing and form a proper seal at all times. The door closer mechanism being functional is irrelevant — if the door is physically prevented from closing, the fire boundary is compromised. In a fire scenario, smoke inhalation begins within minutes. One propped door can convert a survivable emergency into a fatality. This is why it is a standalone detainable deficiency, not a conditional one.'
+  },
+  B: {
+    label: 'Observation B · Escape route',
+    title: 'Escape route obstructed by cargo',
+    reg: 'SOLAS Chapter III',
+    observation: 'A marked emergency escape route, indicated by a painted arrow on the deck, is partially blocked by two stacked cargo boxes. The pathway is narrowed to approximately 40cm.',
+    question: 'Is this a safety deficiency requiring action before the vessel can proceed?',
+    isViolation: true,
+    consequence: 'Detainable deficiency. Escape routes must be clear and unobstructed at all times. In an emergency, a blocked route reduces evacuation speed and creates a fatal hazard in low-visibility conditions.',
+    learnMore: 'SOLAS Chapter III requires escape routes to be clear, marked, and accessible at all times — not just when convenient. 40cm is insufficient for emergency egress, particularly in darkness, smoke, or while wearing a lifejacket. The fact that cargo is the obstruction, not a structural feature, makes this immediately rectifiable — and therefore immediately required. A PSCO should note who placed the cargo and whether it reflects a wider stowage management failure under the ISM Code.'
+  },
+  C: {
+    label: 'Observation C · Life ring',
+    title: 'Life ring absent from mounting bracket',
+    reg: 'SOLAS Chapter III / LSA Code',
+    observation: 'A life ring mounting bracket is fixed to the railing at the required location. The bracket is intact and correctly positioned, but the life ring itself is not present. No replacement is visible nearby.',
+    question: 'Should this be flagged as a lifesaving appliance deficiency?',
+    isViolation: true,
+    consequence: 'Recordable deficiency. A missing life ring is a lifesaving appliance failure under the LSA Code. Detainable if multiple instances are found, or if combined with other LSA deficiencies.',
+    learnMore: 'The LSA Code under SOLAS Chapter III specifies the number, type, and placement of life rings required per vessel length and type. A bracket without a ring means a person overboard may have no immediate means of flotation while a rescue operation is organised. The PSCO should check all life ring stations, not just the one observed, and cross-reference against the vessel\'s LSA inventory list. A single missing ring is recordable; a pattern of missing appliances is detainable and suggests a maintenance culture failure.'
+  },
+  D: {
+    label: 'Observation D · Fire extinguisher',
+    title: 'Portable extinguisher with overdue inspection tag',
+    reg: 'SOLAS Chapter II-2',
+    observation: 'A portable CO2 fire extinguisher is correctly mounted near the deck access hatch. The inspection tag is attached and legible — the last service date indicates the unit is 7 months overdue for its annual inspection.',
+    question: 'Is an overdue inspection tag sufficient to flag this as a maintenance deficiency?',
+    isViolation: true,
+    consequence: 'Maintenance deficiency. Overdue servicing means the unit\'s operational status is unverified. If systemic across the vessel, this signals an ISM failure and can contribute to a detention finding.',
+    learnMore: 'SOLAS Chapter II-2 requires portable fire extinguishers to be serviced annually and hydrostatically tested every five years. An overdue tag does not mean the extinguisher is non-functional — it means its functionality is unverified. In a fire emergency, an unverified extinguisher is an unknown. The PSCO should record this deficiency and check how many other extinguishers on the vessel share the same pattern. One overdue unit is a maintenance lapse; four overdue units across the vessel is an ISM Code violation, suggesting the Safety Management System is not being followed.'
+  },
+  E: {
+    label: 'Observation E · Signage area',
+    title: 'No Smoking sign — vicinity of fuel vent',
+    reg: 'USCG / SOLAS (advisory)',
+    observation: 'An area near a deck fuel vent has been flagged by a crew member as lacking No Smoking signage. On closer inspection, the required sign is posted on the adjacent bulkhead, approximately 2 metres from the vent — within the acceptable proximity range.',
+    question: 'Does the sign placement constitute a recordable deficiency?',
+    isViolation: false,
+    consequence: 'No deficiency. Sign is posted within acceptable proximity to the fuel vent. This is not a recordable item. Flagging this wastes inspection time and can reflect poorly on the officer\'s judgement.',
+    learnMore: 'Signage regulations specify proximity to the relevant hazard, not exact placement. A sign 2 metres from a fuel vent, on a clearly visible bulkhead, meets the requirement. PSCOs are trained to distinguish between a genuinely missing sign and one that is present but not immediately obvious. Flagging a compliant item as a deficiency creates administrative work, can be challenged by the master, and signals to a supervising PSCO that the officer is not reading the environment carefully. Precision matters in both directions — missing a real violation and raising a false one are both errors.'
+  }
+};
+
+const ALL_IDS = ['A','B','C','D','E'];
+const VIOLATIONS = ['A','B','C','D'];
+
+let decisions = {}; // id -> 'flag' | 'clear' | null
+let currentCard = null;
+let secs = 240;
+let submitted = false;
+let ticker = null;
+let finalSecs = 240;
+
+function beginMission() {
+  const guided = document.getElementById('guided-toggle').checked;
+  go(guided ? 'screen-guided' : 'screen-z1');
+}
+
+function toggleReg(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+function toggleLearnMore(btn) {
+  const body = btn.nextElementSibling;
+  body.classList.toggle('open');
+  btn.textContent = body.classList.contains('open') ? '− Close' : '+ Learn more';
+}
+
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function initZone2() {
+  decisions = {};
+  ALL_IDS.forEach(id => { decisions[id] = null; });
+  currentCard = null;
+  submitted = false;
+  secs = 240;
+  finalSecs = 240;
+  clearInterval(ticker);
+
+  document.getElementById('hud-timer').textContent = '04:00';
+  document.getElementById('hud-timer').classList.remove('warn');
+  document.getElementById('hud-vessel').textContent = 'INSPECTION IN PROGRESS';
+  document.getElementById('hud-vessel').className = 'hud-vessel';
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('tally-text').textContent = 'Hover to read each marker, then decide';
+  document.getElementById('card-overlay').classList.remove('open');
+
+  ALL_IDS.forEach(id => {
+    const el = document.getElementById('hs-' + id);
+    el.className = 'hotspot';
+    el.onclick = () => openCard(id);
+  });
+
+  buildProgressPips();
+  go('screen-z2');
+  ticker = setInterval(tick, 1000);
+}
+
+function buildProgressPips() {
+  const wrap = document.getElementById('hud-progress');
+  wrap.innerHTML = '';
+  ALL_IDS.forEach(id => {
+    const pip = document.createElement('div');
+    pip.className = 'progress-pip';
+    pip.id = 'pip-' + id;
+    wrap.appendChild(pip);
+  });
+}
+
+function tick() {
+  if (submitted) { clearInterval(ticker); return; }
+  secs--;
+  const m = String(Math.floor(secs / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+  document.getElementById('hud-timer').textContent = m + ':' + s;
+  if (secs <= 30) document.getElementById('hud-timer').classList.add('warn');
+  if (secs <= 0) { clearInterval(ticker); submitCheck(true); }
+}
+
+function openCard(id) {
+  if (submitted) return;
+  currentCard = id;
+  const item = ITEMS[id];
+
+  document.getElementById('card-zone-tag').textContent = item.label;
+  document.getElementById('card-obs-title').textContent = item.title;
+  document.getElementById('card-reg').textContent = item.reg;
+  document.getElementById('card-observation').textContent = item.observation;
+  document.getElementById('card-question').textContent = item.question;
+
+  // Restore any previous decision state on buttons
+  const btnFlag = document.getElementById('btn-flag');
+  const btnClear = document.getElementById('btn-clear-item');
+  btnFlag.classList.remove('selected');
+  btnClear.classList.remove('selected');
+  if (decisions[id] === 'flag') btnFlag.classList.add('selected');
+  if (decisions[id] === 'clear') btnClear.classList.add('selected');
+
+  document.getElementById('card-overlay').classList.add('open');
+}
+
+function closeCard() {
+  document.getElementById('card-overlay').classList.remove('open');
+  currentCard = null;
+}
+
+function decide(verdict) {
+  if (!currentCard || submitted) return;
+  const id = currentCard;
+  decisions[id] = verdict;
+
+  // Update hotspot ring
+  const el = document.getElementById('hs-' + id);
+  el.className = 'hotspot ' + (verdict === 'flag' ? 'decided-flag' : 'decided-clear');
+
+  // Update button state in card
+  document.getElementById('btn-flag').classList.toggle('selected', verdict === 'flag');
+  document.getElementById('btn-clear-item').classList.toggle('selected', verdict === 'clear');
+
+  // Update pip
+  const pip = document.getElementById('pip-' + id);
+  pip.className = 'progress-pip ' + (verdict === 'flag' ? 'flagged' : 'cleared-pip');
+
+  // Update tally
+  const decided = ALL_IDS.filter(i => decisions[i] !== null).length;
+  document.getElementById('tally-text').textContent = decided + ' of ' + ALL_IDS.length + ' items decided';
+
+  // Close card after short delay
+  setTimeout(closeCard, 400);
+}
+
+function submitCheck(timeUp = false) {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(ticker);
+  finalSecs = timeUp ? 0 : secs;
+  document.getElementById('btn-submit').disabled = true;
+  document.getElementById('card-overlay').classList.remove('open');
+
+  // Reveal results on hotspots
+  ALL_IDS.forEach(id => {
+    const el = document.getElementById('hs-' + id);
+    el.onclick = null;
+    const shouldFlag = VIOLATIONS.includes(id);
+    const decided = decisions[id];
+    const correct = (shouldFlag && decided === 'flag') || (!shouldFlag && decided === 'clear');
+    if (correct) el.className = 'hotspot result-correct';
+    else if (shouldFlag && decided !== 'flag') el.className = 'hotspot result-missed';
+    else el.className = 'hotspot result-wrong';
+  });
+
+  setTimeout(() => buildDebrief(timeUp), 1200);
+}
+
+function buildDebrief() {
+  const results = ALL_IDS.map(id => {
+    const shouldFlag = VIOLATIONS.includes(id);
+    const decided = decisions[id];
+    const correct = (shouldFlag && decided === 'flag') || (!shouldFlag && decided === 'clear');
+    return { id, shouldFlag, decided, correct };
+  });
+
+  const correctCount = results.filter(r => r.correct).length;
+  const wrongCount = ALL_IDS.length - correctCount;
+  const missedViolations = results.filter(r => r.shouldFlag && r.decided !== 'flag').length;
+
+  const stamp = document.getElementById('db-stamp');
+  const title = document.getElementById('db-title');
+  const sub = document.getElementById('db-sub');
+  const btnProceed = document.getElementById('btn-proceed-z3');
+  const btnReview = document.getElementById('btn-review-regs');
+
+  // WEIGHTED SCORING: any missed active violation = automatic Detained
+  // Speed and correct clears cannot compensate for a missed safety deficiency
+  if (missedViolations === 0 && wrongCount === 0) {
+    stamp.className = 'outcome-stamp cleared'; stamp.textContent = '✓';
+    title.textContent = 'Vessel cleared';
+    sub.textContent = 'All observations correctly assessed. No outstanding detainable deficiencies. Vessel may proceed.';
+    btnProceed.disabled = false;
+    btnReview.style.display = 'none';
+  } else if (missedViolations === 0 && wrongCount > 0) {
+    stamp.className = 'outcome-stamp conditional'; stamp.textContent = '⚠';
+    title.textContent = 'Cleared — with caution';
+    sub.textContent = 'All violations correctly identified, but one observation was incorrectly flagged. No safety risk, but false alarms waste time and damage port relationships.';
+    btnProceed.disabled = false;
+    btnReview.style.display = 'none';
+  } else {
+    // Any missed violation = Detained, regardless of score or time remaining
+    stamp.className = 'outcome-stamp detained'; stamp.textContent = '✗';
+    title.textContent = 'Vessel detained';
+    sub.textContent = missedViolations === 1
+      ? 'One safety violation was missed. In a real inspection, this vessel would not be cleared. A single missed detainable deficiency is sufficient grounds for detention — correct calls elsewhere do not compensate.'
+      : 'Multiple violations missed. This vessel should not have been cleared. Correct calls elsewhere do not offset a missed safety deficiency — integrity of the inspection is non-negotiable.';
+    btnProceed.disabled = true;
+    btnReview.style.display = '';
+  }
+
+  document.getElementById('db-correct').textContent = correctCount;
+  document.getElementById('db-wrong').textContent = wrongCount;
+  const m = String(Math.floor(finalSecs / 60)).padStart(2, '0');
+  const s = String(finalSecs % 60).padStart(2, '0');
+  document.getElementById('db-time').textContent = m + ':' + s;
+
+  const list = document.getElementById('db-list');
+  list.innerHTML = '';
+
+  results.forEach(r => {
+    const item = ITEMS[r.id];
+    const div = document.createElement('div');
+    let cls, ico, verdictText;
+
+    if (r.correct && r.shouldFlag) { cls = 'correct-flag'; ico = '✓'; verdictText = 'Correctly flagged'; }
+    else if (r.correct && !r.shouldFlag) { cls = 'correct-clear'; ico = '✓'; verdictText = 'Correctly cleared'; }
+    else if (!r.correct && r.shouldFlag && r.decided === 'clear') { cls = 'missed-flag'; ico = '✗'; verdictText = 'Should have been flagged'; }
+    else if (!r.correct && !r.shouldFlag && r.decided === 'flag') { cls = 'false-alarm'; ico = '!'; verdictText = 'False alarm — not a violation'; }
+    else { cls = 'undecided'; ico = '—'; verdictText = 'Not assessed'; }
+
+    div.className = 'db-item ' + cls;
+    div.innerHTML = `
+      <div class="db-ico">${ico}</div>
+      <div style="flex:1;">
+        <div class="db-name">${item.title}</div>
+        <div class="db-verdict" style="color:${r.correct ? '#4db87a' : '#e06055'}">${verdictText} · ${item.reg}</div>
+        <div class="db-con">${item.consequence}</div>
+        ${!r.correct ? `<button class="learn-more-toggle" onclick="toggleLearnMore(this)">+ Learn more</button><div class="learn-more-body">${item.learnMore}</div>` : ''}
+      </div>`;
+    list.appendChild(div);
+  });
+
+  go('screen-debrief');
+}
+</script>
+</body>
+</html>
