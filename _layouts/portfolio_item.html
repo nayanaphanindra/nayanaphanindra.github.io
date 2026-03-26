@@ -1,6 +1,21 @@
 ---
 layout: default
 ---
+<style>
+  /* Force visibility for troubleshooting */
+  .post-content.fade-in {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    color: #333 !important; /* Ensuring text isn't white-on-white */
+  }
+  
+  .container {
+    min-height: 500px;
+    border: 1px solid red; /* Visual cue to see where the container is */
+  }
+</style>
+
 <main class="portfolio-page">
   <div class="container">
     <a href="{{ '/#portfolio' | relative_url }}" class="back-link">
